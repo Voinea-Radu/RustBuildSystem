@@ -28,6 +28,8 @@ public class Build {
     public String rootLocation;
     @DatabaseField(columnName = "block_locations")
     public String blockLocations;
+    @DatabaseField(columnName = "level")
+    public int level;
 
     public Build(int ownerId, String type, int foundationID, PluginLocation rootLocation, List<PluginLocation> blockLocations) {
         this.ownerId = ownerId;
@@ -35,6 +37,7 @@ public class Build {
         this.foundationID = foundationID;
         this.rootLocation = new Gson().toJson(rootLocation);
         this.blockLocations = new Gson().toJson(blockLocations);
+        this.level = 0;
     }
 
     public boolean isFoundation() {

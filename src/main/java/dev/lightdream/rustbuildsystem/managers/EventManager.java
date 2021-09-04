@@ -147,10 +147,10 @@ public class EventManager implements Listener {
         if (!buildSession.canBuild) {
             return;
         }
-        if(!buildSession.schematic.cost.has(user.getPlayer())){
+        if(!buildSession.schematic.cost.get(0).has(user.getPlayer())){
             return;
         }
-        buildSession.schematic.cost.take(user.getPlayer());
+        buildSession.schematic.cost.get(0).take(user.getPlayer());
 
         for (PluginLocation location : buildSession.placeholderBlocks) {
             PluginLocation offset = location.newUnOffset(buildSession.root);
@@ -159,7 +159,7 @@ public class EventManager implements Listener {
                 offset.x = offset.z;
                 offset.z = tmp;
             }
-            location.setBlock(buildSession.schematic.offsets.get(offset.toPosition()).parseMaterial());
+            location.setBlock(buildSession.schematic.offsets.get(offset.toPosition()).get(0).parseMaterial());
         }
 
         plugin.databaseManager.save(
