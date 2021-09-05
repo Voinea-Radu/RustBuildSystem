@@ -67,7 +67,7 @@
         <dependency>
             <groupId>dev.lightdream</groupId>
             <artifactId>LightDreamAPI</artifactId>
-            <version>1.94</version>
+            <version>1.97</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

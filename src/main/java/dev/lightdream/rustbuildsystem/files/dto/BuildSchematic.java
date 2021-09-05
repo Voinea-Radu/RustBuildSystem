@@ -18,4 +18,5 @@ public class BuildSchematic {
     public List<Cost> cost;
     public boolean placedOnGround;
     public boolean placeOnMargin;
+    public List<Integer> heath;
 }

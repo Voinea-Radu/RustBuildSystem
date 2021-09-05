@@ -4,6 +4,7 @@ import dev.lightdream.api.databases.User;
 import dev.lightdream.api.files.dto.PluginLocation;
 import dev.lightdream.api.files.dto.Position;
 import dev.lightdream.api.files.dto.XMaterial;
+import dev.lightdream.api.utils.MessageUtils;
 import dev.lightdream.rustbuildsystem.Main;
 import dev.lightdream.rustbuildsystem.Utils;
 import dev.lightdream.rustbuildsystem.database.Build;
@@ -24,6 +25,7 @@ public class EventManager implements Listener {
 
     private final Main plugin;
     public HashMap<User, BuildSession> buildMode = new HashMap<>();
+    public List<User> upgradeMode = new ArrayList<>();
 
     public EventManager(Main plugin) {
         this.plugin = plugin;
@@ -33,18 +35,17 @@ public class EventManager implements Listener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         User user = plugin.databaseManager.getUser(event.getPlayer());
+
+        if (user.getPlayer() == null) {
+            return;
+        }
+
         if (!buildMode.containsKey(user)) {
             return;
         }
 
         //Getting the placeholders
         BuildSession buildSession = buildMode.get(user);
-
-        //Clear the placeholders
-        buildSession.clearPlaceholders();
-
-        //Prepare the placeholders
-        List<PluginLocation> placeholders = new ArrayList<>();
 
         //Get the target block
         Block target = Utils.getTargetBlock(user.getPlayer(), 8, false);
@@ -55,12 +56,30 @@ public class EventManager implements Listener {
         //Set the root to the target block
         PluginLocation root = new PluginLocation(target.getLocation());
 
-        //Get if there are any builds on the target block
-        Build build = plugin.databaseManager.getBuild(root);
-        if (build == null && !buildSession.schematic.placedOnGround) {
+        //If the the player location is to close
+        if (root.toLocation().distance(user.getPlayer().getLocation()) <= 2) {
             return;
         }
-        if (build != null && buildSession.schematic.placedOnGround) {
+
+        if (buildSession.buildTarget != null) {
+            if (buildSession.buildTarget.equals(root)) {
+                return;
+            }
+        }
+        buildSession.buildTarget = root.clone();
+
+        //Clear the placeholders
+        buildSession.clearPlaceholders(user.getPlayer());
+        buildSession.canBuild = false;
+        buildSession.canCollideWithFoundation = false;
+
+        //Prepare the placeholders
+        List<PluginLocation> placeholders = new ArrayList<>();
+
+        //Get if there are any builds on the target block
+        Build build = plugin.databaseManager.getBuild(root);
+
+        if (build == null && !buildSession.schematic.placedOnGround) {
             return;
         }
 
@@ -68,19 +87,50 @@ public class EventManager implements Listener {
             //Get the foundation of the build
             Build foundation = build.getFoundation();
 
+            if (buildSession.isFoundation()) {
+                List<Build> walls = plugin.databaseManager.getBuilds(foundation.id, "wall");
+                if (walls.size() == 0) {
+                    return;
+                }
+            }
+
             if (buildSession.schematic.placeOnMargin) {
-                PluginLocation location = null;
-                double minDistance = 1000000000;
-                for (PluginLocation wallRoot : foundation.getWallRoots()) {
-                    double distance = root.toLocation().distance(wallRoot.toLocation());
-                    if (minDistance > distance) {
-                        minDistance = distance;
-                        location = wallRoot;
+                root = build.getClosestMarginRoot(root, false);
+            } else {
+                buildSession.canCollideWithFoundation = true;
+                root = foundation.getRootLocation();
+            }
+        } else {
+            if (build != null) {
+                if (!build.isFoundation()) {
+                    PluginLocation check = root.clone();
+                    for (int i = 0; i <= 255; i++) {
+                        check.y = i;
+                        if (plugin.databaseManager.getBuild(check) != null) {
+                            return;
+                        }
+                    }
+                } else {
+                    root = build.getClosestMarginRoot(root, true);
+                    buildSession.canCollideWithFoundation = true;
+                    if (root.rotationX == 90) {
+                        root.offset(0, -2, -2);
+                    } else if (root.rotationX == 0) {
+                        root.offset(-2, -2, 0);
+                    } else if (root.rotationX == 180) {
+                        root.offset(2, -2, 0);
+                    } else if (root.rotationX == 270) {
+                        root.offset(0, -2, 2);
                     }
                 }
-                root = location;
             } else {
-                root = foundation.getRootLocation();
+                PluginLocation check = root.clone();
+                for (int i = 0; i <= 255; i++) {
+                    check.y = i;
+                    if (plugin.databaseManager.getBuild(check) != null) {
+                        return;
+                    }
+                }
             }
         }
         if (root == null) {
@@ -92,38 +142,51 @@ public class EventManager implements Listener {
         root = root.newOffset(buildSession.schematic.rootOffset);
         buildSession.root = root;
 
+        build = plugin.databaseManager.getBuild(root);
+        if (build != null) {
+            return;
+        }
+
         for (Position position : buildSession.schematic.offsets.keySet()) {
             Position offset = position.clone();
             if (buildSession.rotate) {
                 offset.flip();
             }
             PluginLocation location = root.newOffset(offset);
-
+            if (buildSession.canCollideWithFoundation) {
+                Build b = plugin.databaseManager.getBuild(location);
+                if (b != null && b.isFoundation()) {
+                    if (canBuild) {
+                        user.getPlayer().sendBlockChange(location.toLocation(), XMaterial.LIME_STAINED_GLASS.parseMaterial(), XMaterial.LIME_STAINED_GLASS.getData());
+                    } else {
+                        user.getPlayer().sendBlockChange(location.toLocation(), XMaterial.RED_STAINED_GLASS.parseMaterial(), XMaterial.RED_STAINED_GLASS.getData());
+                    }
+                    placeholders.add(location);
+                    continue;
+                }
+            }
             if (location.getBlock().getType().equals(Material.AIR)) {
                 if (canBuild) {
-                    location.setBlock(XMaterial.LIME_STAINED_GLASS.parseMaterial());
-                    location.getBlock().setData(XMaterial.LIME_STAINED_GLASS.getData());
+                    user.getPlayer().sendBlockChange(location.toLocation(), XMaterial.LIME_STAINED_GLASS.parseMaterial(), XMaterial.LIME_STAINED_GLASS.getData());
                 } else {
-                    location.setBlock(XMaterial.RED_STAINED_GLASS.parseMaterial());
-                    location.getBlock().setData(XMaterial.RED_STAINED_GLASS.getData());
+                    user.getPlayer().sendBlockChange(location.toLocation(), XMaterial.RED_STAINED_GLASS.parseMaterial(), XMaterial.RED_STAINED_GLASS.getData());
                 }
-                location.getBlock().getState().update();
                 placeholders.add(location);
-            } else {
-                if (buildSession.schematic.placeOnMargin) {
-                    if (plugin.databaseManager.getBuild(location) != null) {
-                        if (!root.equals(plugin.databaseManager.getBuild(location).getRootLocation())) {
-                            continue;
-                        }
+                continue;
+            }
+            if (buildSession.schematic.placeOnMargin) {
+                if (plugin.databaseManager.getBuild(location) != null) {
+                    if (!root.equals(plugin.databaseManager.getBuild(location).getRootLocation())) {
+                        continue;
                     }
                 }
-
-                canBuild = false;
-                placeholders.forEach(l -> {
-                    l.setBlock(XMaterial.RED_STAINED_GLASS.parseMaterial());
-                    l.getBlock().setData(XMaterial.RED_STAINED_GLASS.getData());
-                });
             }
+
+            canBuild = false;
+            placeholders.forEach(l -> {
+                user.getPlayer().sendBlockChange(l.toLocation(), XMaterial.RED_STAINED_GLASS.parseMaterial(), XMaterial.RED_STAINED_GLASS.getData());
+            });
+
         }
 
         buildSession.placeholderBlocks = placeholders;
@@ -134,12 +197,16 @@ public class EventManager implements Listener {
     public void onPlayerInteract(PlayerInteractEvent event) {
         User user = plugin.databaseManager.getUser(event.getPlayer());
 
+        if (user.getPlayer() == null) {
+            return;
+        }
+
         if (!buildMode.containsKey(user)) {
             return;
         }
         BuildSession buildSession = buildMode.get(user);
         buildMode.remove(user);
-        buildSession.placeholderBlocks.forEach(location -> location.setBlock(Material.AIR));
+        buildSession.clearPlaceholders(user.getPlayer());
 
         if (buildSession.root == null) {
             return;
@@ -147,7 +214,7 @@ public class EventManager implements Listener {
         if (!buildSession.canBuild) {
             return;
         }
-        if(!buildSession.schematic.cost.get(0).has(user.getPlayer())){
+        if (!buildSession.schematic.cost.get(0).has(user.getPlayer())) {
             return;
         }
         buildSession.schematic.cost.get(0).take(user.getPlayer());
@@ -172,11 +239,28 @@ public class EventManager implements Listener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
+        User user = plugin.databaseManager.getUser(event.getPlayer());
         Build build = plugin.databaseManager.getBuild(new PluginLocation(event.getBlock().getLocation()));
+
         if (build == null) {
             return;
         }
-        build.destroy();
 
+        if (upgradeMode.contains(user)) {
+            if (build.ownerId == user.id){
+                build.upgrade();
+                event.setCancelled(true);
+                return;
+            }
+        }
+
+        if (build.ownerId == user.id) {
+            build.destroy();
+            return;
+        }
+
+        build.damage();
+        MessageUtils.sendMessage(user, Main.instance.lang.healthMessage.replace("%health%", String.valueOf(build.health)));
     }
+
 }

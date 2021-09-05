@@ -4,6 +4,7 @@ import dev.lightdream.api.LightDreamPlugin;
 import dev.lightdream.api.files.config.SQLConfig;
 import dev.lightdream.api.utils.LangUtils;
 import dev.lightdream.rustbuildsystem.commands.BuildCommand;
+import dev.lightdream.rustbuildsystem.commands.UpgradeCommand;
 import dev.lightdream.rustbuildsystem.files.config.Config;
 import dev.lightdream.rustbuildsystem.files.config.Lang;
 import dev.lightdream.rustbuildsystem.managers.DatabaseManager;
@@ -60,6 +61,7 @@ public final class Main extends LightDreamPlugin {
     @Override
     public void loadBaseCommands() {
         baseCommands.add(new BuildCommand(this));
+        baseCommands.add(new UpgradeCommand(this));
     }
 
 

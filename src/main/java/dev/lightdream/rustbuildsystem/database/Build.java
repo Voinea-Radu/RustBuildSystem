@@ -4,9 +4,12 @@ import com.google.gson.Gson;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import dev.lightdream.api.files.dto.PluginLocation;
+import dev.lightdream.api.files.dto.Position;
 import dev.lightdream.rustbuildsystem.Main;
+import dev.lightdream.rustbuildsystem.files.dto.Cost;
 import lombok.NoArgsConstructor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,6 +33,8 @@ public class Build {
     public String blockLocations;
     @DatabaseField(columnName = "level")
     public int level;
+    @DatabaseField(columnName = "health")
+    public Integer health;
 
     public Build(int ownerId, String type, int foundationID, PluginLocation rootLocation, List<PluginLocation> blockLocations) {
         this.ownerId = ownerId;
@@ -38,13 +43,14 @@ public class Build {
         this.rootLocation = new Gson().toJson(rootLocation);
         this.blockLocations = new Gson().toJson(blockLocations);
         this.level = 0;
+        this.health = Main.instance.config.builds.get(type).heath.get(level);
     }
 
     public boolean isFoundation() {
         return type.equals("foundation") || type.equals("roof");
     }
 
-    public List<PluginLocation> getWallRoots() {
+    public List<PluginLocation> getMarinRoots(boolean fullRotations) {
         if (!isFoundation()) {
             return new ArrayList<>();
         }
@@ -72,12 +78,34 @@ public class Build {
                 maxY = (int) location.y;
             }
         }
+        if (!fullRotations) {
+            return Arrays.asList(
+                    new PluginLocation(blockLocations.get(0).world, minX, maxY, (minZ + maxZ) / 2),
+                    new PluginLocation(blockLocations.get(0).world, maxX, maxY, (minZ + maxZ) / 2),
+                    new PluginLocation(blockLocations.get(0).world, (minX + maxX) / 2, maxY, minZ, 90, 0),
+                    new PluginLocation(blockLocations.get(0).world, (minX + maxX) / 2, maxY, maxZ, 90, 0)
+            );
+        }
         return Arrays.asList(
-                new PluginLocation(blockLocations.get(0).world, minX, maxY, (minZ + maxZ) / 2),
-                new PluginLocation(blockLocations.get(0).world, maxX, maxY, (minZ + maxZ) / 2),
+                new PluginLocation(blockLocations.get(0).world, minX, maxY, (minZ + maxZ) / 2, 0, 0),
+                new PluginLocation(blockLocations.get(0).world, maxX, maxY, (minZ + maxZ) / 2, 180, 0),
                 new PluginLocation(blockLocations.get(0).world, (minX + maxX) / 2, maxY, minZ, 90, 0),
-                new PluginLocation(blockLocations.get(0).world, (minX + maxX) / 2, maxY, maxZ, 90, 0)
+                new PluginLocation(blockLocations.get(0).world, (minX + maxX) / 2, maxY, maxZ, 270, 0)
         );
+
+    }
+
+    public PluginLocation getClosestMarginRoot(PluginLocation targetLocation, boolean fullRotate) {
+        PluginLocation location = null;
+        double minDistance = 1000000000;
+        for (PluginLocation wallRoot : this.getMarinRoots(fullRotate)) {
+            double distance = targetLocation.toLocation().distance(wallRoot.toLocation());
+            if (minDistance > distance) {
+                minDistance = distance;
+                location = wallRoot;
+            }
+        }
+        return location;
     }
 
     public List<PluginLocation> getBlockLocations() {
@@ -104,7 +132,55 @@ public class Build {
             location.setBlock(Material.AIR);
         });
         Main.instance.databaseManager.delete(this);
+
+        if (isWall()) {
+            List<Build> walls = Main.instance.databaseManager.getBuilds(foundationID, "wall");
+            if (walls.size() == 0) {
+                Main.instance.databaseManager.getBuilds(foundationID).forEach(Build::destroy);
+            }
+        }
     }
 
+    @Override
+    public String toString() {
+        return "Build{" +
+                "id=" + id +
+                ", ownerId=" + ownerId +
+                ", type='" + type + '\'' +
+                ", foundationID=" + foundationID +
+                ", rootLocation='" + rootLocation + '\'' +
+                ", blockLocations='" + blockLocations + '\'' +
+                ", level=" + level +
+                '}';
+    }
 
+    public boolean isWall() {
+        return type.equals("wall");
+    }
+
+    public void upgrade() {
+        this.level++;
+        this.health = Main.instance.config.builds.get(this.type).heath.get(this.level);
+        Cost cost = Main.instance.config.builds.get(this.type).cost.get(this.level);
+        Player player = Main.instance.databaseManager.getUser(this.ownerId).getPlayer();
+        if(!cost.has(player)){
+            this.level--;
+            this.health = Main.instance.config.builds.get(this.type).heath.get(this.level);
+            return;
+        }
+
+        cost.take(player);
+
+        for (Position offset : Main.instance.config.builds.get(this.type).offsets.keySet()) {
+            PluginLocation location = getRootLocation().newOffset(offset);
+            location.setBlock(Main.instance.config.builds.get(this.type).offsets.get(offset).get(this.level).parseMaterial());
+        }
+    }
+
+    public void damage() {
+        this.health--;
+        if (this.health <= 0) {
+            destroy();
+        }
+    }
 }

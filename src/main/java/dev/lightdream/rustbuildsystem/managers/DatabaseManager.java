@@ -30,6 +30,10 @@ public class DatabaseManager extends LocalDatabaseManager {
         return getBuilds().stream().filter(build -> build.foundationID == foundationID).collect(Collectors.toList());
     }
 
+    public @NotNull List<Build> getBuilds(int foundationID, String type) {
+        return getBuilds().stream().filter(build -> build.foundationID == foundationID && build.type.equals(type)).collect(Collectors.toList());
+    }
+
     public @Nullable Build getBuild(PluginLocation location) {
         Optional<Build> optionalBuild = getBuilds().stream().filter(build -> build.getBlockLocations().contains(location)).findFirst();
 

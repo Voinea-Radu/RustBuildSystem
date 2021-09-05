@@ -66,7 +66,8 @@ public class Config extends dev.lightdream.api.files.config.Config {
                         }})
                 ),
                 true,
-                false
+                false,
+                Arrays.asList(100, 1000, 10000)
         ));
         put("wall", new BuildSchematic(
                 "wall",
@@ -108,7 +109,8 @@ public class Config extends dev.lightdream.api.files.config.Config {
                         }})
                 ),
                 false,
-                true
+                true,
+                Arrays.asList(100, 1000, 10000)
         ));
         put("roof", new BuildSchematic(
                 "roof",
@@ -156,7 +158,8 @@ public class Config extends dev.lightdream.api.files.config.Config {
                         }})
                 ),
                 false,
-                false
+                false,
+                Arrays.asList(100, 1000, 10000)
         ));
     }};
 
