@@ -2,6 +2,7 @@ package dev.lightdream.rustbuildsystem.commands;
 
 import dev.lightdream.api.LightDreamPlugin;
 import dev.lightdream.api.commands.Command;
+import dev.lightdream.api.databases.User;
 import dev.lightdream.api.files.dto.XMaterial;
 import dev.lightdream.api.utils.MessageUtils;
 import dev.lightdream.rustbuildsystem.Main;
@@ -31,10 +32,13 @@ public class BuildCommand extends Command {
             MessageUtils.sendMessage(commandSender, Main.instance.lang.invalidBuild);
             return;
         }
-        Main.instance.eventManager.buildMode.put(Main.instance.databaseManager.getUser((Player) commandSender), new BuildSession( Main.instance.config.builds.get(args.get(0))));
+        User user = Main.instance.databaseManager.getUser((Player) commandSender);
 
-        //((Player)commandSender).sendBlockChange(new Location(Bukkit.getWorld("world"),6, 63, 51), Material.STONE, XMaterial.STONE.getData());
-        //((Player)commandSender).sendBlockChange(new Location(Bukkit.getWorld("world"),6, 64, 51), Material.STONE, XMaterial.STONE.getData());
+        if(Main.instance.eventManager.buildMode.containsKey(user)){
+            Main.instance.eventManager.buildMode.get(user).clearPlaceholders();
+        }
+
+        Main.instance.eventManager.buildMode.put(user, new BuildSession(user, Main.instance.config.builds.get(args.get(0))));
     }
 
     @Override

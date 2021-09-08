@@ -14,7 +14,7 @@ public class Config extends dev.lightdream.api.files.config.Config {
     public HashMap<String, BuildSchematic> builds = new HashMap<String, BuildSchematic>() {{
         put("foundation", new BuildSchematic(
                 "foundation",
-                new Position(0, 2, 0),
+                new Position(0, 1, 0),
                 new HashMap<Position, List<XMaterial>>() {{
                     //Platform
                     put(new Position(-2, 0, -2), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
@@ -52,6 +52,11 @@ public class Config extends dev.lightdream.api.files.config.Config {
                     put(new Position(-2, -1, 2), Arrays.asList(XMaterial.OAK_LOG, XMaterial.OAK_LOG, XMaterial.OAK_LOG));
                     put(new Position(2, -1, -2), Arrays.asList(XMaterial.OAK_LOG, XMaterial.OAK_LOG, XMaterial.OAK_LOG));
                     put(new Position(2, -1, 2), Arrays.asList(XMaterial.OAK_LOG, XMaterial.OAK_LOG, XMaterial.OAK_LOG));
+
+                    put(new Position(-2, -2, -2), Arrays.asList(XMaterial.OAK_LOG, XMaterial.OAK_LOG, XMaterial.OAK_LOG));
+                    put(new Position(-2, -2, 2), Arrays.asList(XMaterial.OAK_LOG, XMaterial.OAK_LOG, XMaterial.OAK_LOG));
+                    put(new Position(2, -2, -2), Arrays.asList(XMaterial.OAK_LOG, XMaterial.OAK_LOG, XMaterial.OAK_LOG));
+                    put(new Position(2, -2, 2), Arrays.asList(XMaterial.OAK_LOG, XMaterial.OAK_LOG, XMaterial.OAK_LOG));
                 }},
                 Arrays.asList(
                         new Cost(new HashMap<XMaterial, Integer>() {{

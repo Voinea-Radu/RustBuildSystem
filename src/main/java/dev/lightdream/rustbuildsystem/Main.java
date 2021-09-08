@@ -36,7 +36,7 @@ public final class Main extends LightDreamPlugin {
     @Override
     public void onDisable() {
         eventManager.buildMode.forEach((user, build) -> {
-            build.placeholderBlocks.forEach(location -> {
+            build.placeholders.forEach(location -> {
                 location.setBlock(Material.AIR);
             });
         });
