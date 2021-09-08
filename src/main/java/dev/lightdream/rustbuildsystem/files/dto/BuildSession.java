@@ -57,8 +57,15 @@ public class BuildSession {
     }
 
     public void preview() {
+
         //Get the target block
         Block target = Utils.getTargetBlock(user.getPlayer(), 8, false, true);
+
+        if (this.root != null) {
+            if (this.root.equals(new PluginLocation(target.getLocation()))) {
+                return;
+            }
+        }
 
         //Set the target root to the target block
         this.root = new PluginLocation(target.getLocation());
@@ -75,6 +82,11 @@ public class BuildSession {
                 return;
             }
         }
+
+        if (this.root.y >= Main.instance.config.maxY) {
+            return;
+        }
+
 
         //If the the player location is to close return
         if (this.root.toLocation().distance(user.getPlayer().getLocation()) <= 2) {
@@ -221,8 +233,8 @@ public class BuildSession {
 
             if (this.schematic.placeOnMargin) {
                 Build b = Main.instance.databaseManager.getBuild(location);
-                if (this.targetBuild != null) {
-                    if (b != null && this.targetBuild.getFoundation().getRootLocation().equals(b.getFoundation().getRootLocation())) {
+                if (b != null) {
+                    if (this.schematic.type.equals(b.type)) {
                         continue;
                     }
                 }
@@ -289,6 +301,10 @@ public class BuildSession {
     }
 
     private boolean canBuild() {
+        if (this.root.y >= Main.instance.config.maxY) {
+            return false;
+        }
+
         this.collidingFoundations = new ArrayList<>();
 
         //Get the target block
@@ -329,8 +345,10 @@ public class BuildSession {
 
             if (this.schematic.placeOnMargin) {
                 Build b = Main.instance.databaseManager.getBuild(location);
-                if (b != null && this.targetBuild.getFoundation().getRootLocation().equals(b.getFoundation().getRootLocation())) {
-                    continue;
+                if (b != null) {
+                    if (this.schematic.type.equals(b.type)) {
+                        continue;
+                    }
                 }
             }
 
@@ -338,7 +356,7 @@ public class BuildSession {
                 continue;
             }
 
-            if(this.canCollide){
+            if (this.canCollide) {
                 continue;
             }
 

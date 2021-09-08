@@ -168,4 +168,6 @@ public class Config extends dev.lightdream.api.files.config.Config {
         ));
     }};
 
+    public int maxY = 70;
+
 }

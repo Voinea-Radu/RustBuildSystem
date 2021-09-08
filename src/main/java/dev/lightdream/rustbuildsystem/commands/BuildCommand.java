@@ -3,13 +3,9 @@ package dev.lightdream.rustbuildsystem.commands;
 import dev.lightdream.api.LightDreamPlugin;
 import dev.lightdream.api.commands.Command;
 import dev.lightdream.api.databases.User;
-import dev.lightdream.api.files.dto.XMaterial;
 import dev.lightdream.api.utils.MessageUtils;
 import dev.lightdream.rustbuildsystem.Main;
 import dev.lightdream.rustbuildsystem.files.dto.BuildSession;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -34,7 +30,7 @@ public class BuildCommand extends Command {
         }
         User user = Main.instance.databaseManager.getUser((Player) commandSender);
 
-        if(Main.instance.eventManager.buildMode.containsKey(user)){
+        if (Main.instance.eventManager.buildMode.containsKey(user)) {
             Main.instance.eventManager.buildMode.get(user).clearPlaceholders();
         }
 
