@@ -3,8 +3,6 @@ version: ${project.version}
 main: dev.lightdream.rustbuildsystem.Main
 authors: [ L1ghtDream ]
 website: https://lightdream.dev
-depend:
-  - LightDreamAPI
 commands:
   rbs:
     description: NA
