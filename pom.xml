@@ -34,6 +34,9 @@
                 <executions>
                     <execution>
                         <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -68,7 +71,7 @@
             <groupId>dev.lightdream</groupId>
             <artifactId>LightDreamAPI</artifactId>
             <version>1.97</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>
