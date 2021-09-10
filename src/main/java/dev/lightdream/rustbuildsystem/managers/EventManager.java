@@ -2,7 +2,6 @@ package dev.lightdream.rustbuildsystem.managers;
 
 import dev.lightdream.api.databases.User;
 import dev.lightdream.api.files.dto.PluginLocation;
-import dev.lightdream.api.utils.MessageUtils;
 import dev.lightdream.rustbuildsystem.Main;
 import dev.lightdream.rustbuildsystem.database.Build;
 import dev.lightdream.rustbuildsystem.files.dto.BuildSession;
@@ -83,7 +82,7 @@ public class EventManager implements Listener {
         }
 
         build.damage();
-        MessageUtils.sendMessage(user, Main.instance.lang.healthMessage.replace("%health%", String.valueOf(build.health)));
+        Main.instance.getMessageManager().sendMessage(user, Main.instance.lang.healthMessage.replace("%health%", String.valueOf(build.health)));
         event.setCancelled(true);
     }
 

@@ -3,9 +3,7 @@ package dev.lightdream.rustbuildsystem.commands;
 import dev.lightdream.api.LightDreamPlugin;
 import dev.lightdream.api.commands.Command;
 import dev.lightdream.api.databases.User;
-import dev.lightdream.api.utils.MessageUtils;
 import dev.lightdream.rustbuildsystem.Main;
-import dev.lightdream.rustbuildsystem.files.dto.BuildSchematic;
 import dev.lightdream.rustbuildsystem.files.dto.BuildSession;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -25,13 +23,8 @@ public class BuildCommand extends Command {
             sendUsage(commandSender);
             return;
         }
-
-        String type = args.get(0);
-
-        BuildSchematic schematic = Main.instance.config.getBuild(type);
-
-        if (schematic == null) {
-            MessageUtils.sendMessage(commandSender, Main.instance.lang.invalidBuild);
+        if (!Main.instance.config.builds.containsKey(args.get(0))) {
+            api.getMessageManager().sendMessage(commandSender, Main.instance.lang.invalidBuild);
             return;
         }
         User user = Main.instance.databaseManager.getUser((Player) commandSender);
@@ -40,7 +33,7 @@ public class BuildCommand extends Command {
             Main.instance.eventManager.buildMode.get(user).clearPlaceholders();
         }
 
-        Main.instance.eventManager.buildMode.put(user, new BuildSession(user, schematic));
+        Main.instance.eventManager.buildMode.put(user, new BuildSession(user, Main.instance.config.builds.get(args.get(0))));
     }
 
     @Override

@@ -1,8 +1,10 @@
 package dev.lightdream.rustbuildsystem;
 
+import dev.lightdream.api.API;
 import dev.lightdream.api.LightDreamPlugin;
+import dev.lightdream.api.databases.User;
 import dev.lightdream.api.files.config.SQLConfig;
-import dev.lightdream.api.utils.LangUtils;
+import dev.lightdream.api.managers.MessageManager;
 import dev.lightdream.rustbuildsystem.commands.BuildCommand;
 import dev.lightdream.rustbuildsystem.commands.UpgradeCommand;
 import dev.lightdream.rustbuildsystem.files.config.Config;
@@ -11,7 +13,10 @@ import dev.lightdream.rustbuildsystem.managers.DatabaseManager;
 import dev.lightdream.rustbuildsystem.managers.EventManager;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
 
 public final class Main extends LightDreamPlugin {
 
@@ -27,7 +32,7 @@ public final class Main extends LightDreamPlugin {
 
     @Override
     public void onEnable() {
-        init("RustBuildSystem", "rbs", "1.3");
+        init("RustBuildSystem", "rbs", "1.4");
         instance = this;
         eventManager = new EventManager(this);
         databaseManager = new DatabaseManager(this);
@@ -54,7 +59,7 @@ public final class Main extends LightDreamPlugin {
         sqlConfig = fileManager.load(SQLConfig.class);
         config = fileManager.load(Config.class);
         baseConfig = config;
-        lang = (Lang) fileManager.load(LangUtils.getLang(Main.class, config.lang));
+        lang = fileManager.load(Lang.class, fileManager.getFile(baseConfig.baseLang));
         baseLang = lang;
     }
 
@@ -62,6 +67,35 @@ public final class Main extends LightDreamPlugin {
     public void loadBaseCommands() {
         baseCommands.add(new BuildCommand(this));
         baseCommands.add(new UpgradeCommand(this));
+    }
+
+    @Override
+    public MessageManager instantiateMessageManager() {
+        return new MessageManager(this, Main.class);
+    }
+
+    @Override
+    public void registerLangManager() {
+        API.instance.langManager.register(Main.class, getLangs());
+    }
+
+    @Override
+    public void setLang(Player player, String s) {
+        User user = databaseManager.getUser(player);
+        user.setLang(s);
+        databaseManager.save(user);
+    }
+
+    @Override
+    public HashMap<String, Object> getLangs() {
+        HashMap<String, Object> langs = new HashMap<>();
+
+        baseConfig.langs.forEach(lang -> {
+            Lang l = fileManager.load(Lang.class, fileManager.getFile(lang));
+            langs.put(lang, l);
+        });
+
+        return langs;
     }
 
 
