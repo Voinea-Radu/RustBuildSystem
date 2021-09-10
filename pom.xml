@@ -71,7 +71,6 @@
             <groupId>dev.lightdream</groupId>
             <artifactId>LightDreamAPI</artifactId>
             <version>1.97</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>
