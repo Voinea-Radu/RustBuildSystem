@@ -46,7 +46,7 @@ public class Build {
         this.rootLocation = new Gson().toJson(rootLocation);
         this.blockLocations = new Gson().toJson(blockLocations);
         this.level = 0;
-        this.health = Main.instance.config.builds.get(type).heath.get(level);
+        this.health = Main.instance.config.getBuild(type).heath.get(level);
         List<Integer> collidingFoundationsIDs = new ArrayList<>();
         collidingFoundations.forEach(build -> collidingFoundationsIDs.add(build.id));
         this.collidingFoundations = new Gson().toJson(collidingFoundationsIDs);
@@ -194,12 +194,12 @@ public class Build {
 
     public void upgrade() {
         this.level++;
-        this.health = Main.instance.config.builds.get(this.type).heath.get(this.level);
-        Cost cost = Main.instance.config.builds.get(this.type).cost.get(this.level);
+        this.health = Main.instance.config.getBuild(this.type).heath.get(this.level);
+        Cost cost = Main.instance.config.getBuild(this.type).cost.get(this.level);
         Player player = Main.instance.databaseManager.getUser(this.ownerId).getPlayer();
         if (!cost.has(player)) {
             this.level--;
-            this.health = Main.instance.config.builds.get(this.type).heath.get(this.level);
+            this.health = Main.instance.config.getBuild(this.type).heath.get(this.level);
             return;
         }
 
@@ -212,7 +212,7 @@ public class Build {
         this.health--;
         if (this.health <= 0) {
             destroy();
-        }else{
+        } else {
             Main.instance.databaseManager.save(this);
         }
     }
@@ -235,9 +235,9 @@ public class Build {
     }
 
     public void build() {
-        for (Position offset : Main.instance.config.builds.get(this.type).offsets.keySet()) {
+        for (Position offset : Main.instance.config.getBuild(this.type).offsets.keySet()) {
             PluginLocation location = getRootLocation().newOffset(offset);
-            location.setBlock(Main.instance.config.builds.get(this.type).offsets.get(offset).get(this.level).parseMaterial());
+            location.setBlock(Main.instance.config.getBuild(this.type).offsets.get(offset).get(this.level).parseMaterial());
         }
     }
 
