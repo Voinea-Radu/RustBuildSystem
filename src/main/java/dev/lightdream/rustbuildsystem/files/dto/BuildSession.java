@@ -231,12 +231,10 @@ public class BuildSession {
                 }
             }
 
-            if (this.schematic.placeOnMargin) {
-                Build b = Main.instance.databaseManager.getBuild(location);
-                if (b != null) {
-                    if (this.schematic.type.equals(b.type)) {
-                        continue;
-                    }
+            Build b = Main.instance.databaseManager.getBuild(location);
+            if (b != null) {
+                if (this.schematic.type.equals(b.type)) {
+                    continue;
                 }
             }
 
@@ -343,12 +341,10 @@ public class BuildSession {
                 }
             }
 
-            if (this.schematic.placeOnMargin) {
-                Build b = Main.instance.databaseManager.getBuild(location);
-                if (b != null) {
-                    if (this.schematic.type.equals(b.type)) {
-                        continue;
-                    }
+            Build b = Main.instance.databaseManager.getBuild(location);
+            if (b != null) {
+                if (this.schematic.type.equals(b.type)) {
+                    continue;
                 }
             }
 

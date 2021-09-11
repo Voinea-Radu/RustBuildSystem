@@ -33,7 +33,7 @@ public final class Main extends LightDreamPlugin {
 
     @Override
     public void onEnable() {
-        init("RustBuildSystem", "rbs", "1.9");
+        init("RustBuildSystem", "rbs", "1.10");
         instance = this;
         eventManager = new EventManager(this);
         databaseManager = new DatabaseManager(this);
@@ -41,11 +41,7 @@ public final class Main extends LightDreamPlugin {
 
     @Override
     public void onDisable() {
-        eventManager.buildMode.forEach((user, build) -> {
-            build.placeholders.forEach(location -> {
-                location.setBlock(Material.AIR);
-            });
-        });
+        eventManager.buildMode.forEach((user, build) -> build.placeholders.forEach(location -> location.setBlock(Material.AIR)));
 
         databaseManager.save();
     }
