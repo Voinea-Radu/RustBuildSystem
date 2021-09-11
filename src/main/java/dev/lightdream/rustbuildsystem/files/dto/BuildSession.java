@@ -111,7 +111,6 @@ public class BuildSession {
         //Get if there are any builds on the root
         this.targetBuild = Main.instance.databaseManager.getBuild(this.root);
 
-
         //If the build is null the session must be able to be placed on ground
         if (this.targetBuild == null && !this.schematic.placedOnGround) {
             return;
@@ -299,7 +298,6 @@ public class BuildSession {
             }
             location.setBlock(this.schematic.offsets.get(offset.toPosition()).get(0).parseMaterial());
         }
-
 
 
         Main.instance.databaseManager.save(

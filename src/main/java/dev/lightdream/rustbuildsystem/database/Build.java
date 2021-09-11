@@ -26,8 +26,8 @@ public class Build {
     public String type;
     @DatabaseField(columnName = "foundation_id")
     public int foundationID;
-    @DatabaseField(columnName = "root_location")
-    public String rootLocation;
+    @DatabaseField(columnName = "root_location", dataType = DataType.SERIALIZABLE)
+    public PluginLocation rootLocation;
     @DatabaseField(columnName = "block_locations", dataType = DataType.SERIALIZABLE)
     public HashSet<PluginLocation> blockLocations;
     @DatabaseField(columnName = "level")
@@ -43,7 +43,8 @@ public class Build {
         this.ownerId = ownerId;
         this.type = type;
         this.foundationID = foundationID;
-        this.rootLocation = new Gson().toJson(rootLocation);
+        //this.rootLocation = new Gson().toJson(rootLocation);
+        this.rootLocation = rootLocation;
         //this.blockLocations = new Gson().toJson(blockLocations);
         this.blockLocations = new HashSet<>(blockLocations);
         this.level = 0;
@@ -136,7 +137,8 @@ public class Build {
     }
 
     public PluginLocation getRootLocation() {
-        return new Gson().fromJson(this.rootLocation, PluginLocation.class);
+        return this.rootLocation;
+        //return new Gson().fromJson(this.rootLocation, PluginLocation.class);
     }
 
     public Build getFoundation() {
