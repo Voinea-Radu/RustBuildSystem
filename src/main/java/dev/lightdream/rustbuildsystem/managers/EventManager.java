@@ -44,8 +44,11 @@ public class EventManager implements Listener {
                 playerMap.put(user, i);
                 return;
             }
+            i = 0;
+            playerMap.put(user, i);
         } else {
             playerMap.put(user, 0);
+            return;
         }
 
         //Preview the build session
@@ -67,6 +70,7 @@ public class EventManager implements Listener {
         BuildSession buildSession = buildMode.get(user);
         buildSession.build();
         buildMode.remove(user);
+        playerMap.remove(user);
     }
 
     @EventHandler

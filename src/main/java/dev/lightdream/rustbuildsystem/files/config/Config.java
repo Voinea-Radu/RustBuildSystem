@@ -169,10 +169,6 @@ public class Config extends dev.lightdream.api.files.config.Config {
     }};
 
     public int maxY = 70;
-    public int stepsForUpdate = 10;
+    public int stepsForUpdate = 4;
 
 }
-
-/*
-
- */
