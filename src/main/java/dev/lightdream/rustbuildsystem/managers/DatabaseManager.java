@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 @SuppressWarnings("unchecked")
 public class DatabaseManager extends dev.lightdream.api.managers.DatabaseManager {
+
     public DatabaseManager(LightDreamPlugin plugin) {
         super(plugin);
 

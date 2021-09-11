@@ -3,6 +3,7 @@ package dev.lightdream.rustbuildsystem.database;
 import com.google.gson.Gson;
 import dev.lightdream.api.files.dto.PluginLocation;
 import dev.lightdream.api.files.dto.Position;
+import dev.lightdream.libs.j256.field.DataType;
 import dev.lightdream.libs.j256.field.DatabaseField;
 import dev.lightdream.libs.j256.table.DatabaseTable;
 import dev.lightdream.rustbuildsystem.Main;
@@ -11,10 +12,7 @@ import lombok.NoArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @DatabaseTable(tableName = "builds")
 @NoArgsConstructor
@@ -30,8 +28,8 @@ public class Build {
     public int foundationID;
     @DatabaseField(columnName = "root_location")
     public String rootLocation;
-    @DatabaseField(columnName = "block_locations")
-    public String blockLocations;
+    @DatabaseField(columnName = "block_locations", dataType = DataType.SERIALIZABLE)
+    public HashSet<PluginLocation> blockLocations;
     @DatabaseField(columnName = "level")
     public int level;
     @DatabaseField(columnName = "health")
@@ -39,12 +37,15 @@ public class Build {
     @DatabaseField(columnName = "colliding_foundations")
     public String collidingFoundations;
 
+    //private List<PluginLocation> blockLocationsList;
+
     public Build(int ownerId, String type, int foundationID, PluginLocation rootLocation, List<PluginLocation> blockLocations, List<Build> collidingFoundations) {
         this.ownerId = ownerId;
         this.type = type;
         this.foundationID = foundationID;
         this.rootLocation = new Gson().toJson(rootLocation);
-        this.blockLocations = new Gson().toJson(blockLocations);
+        //this.blockLocations = new Gson().toJson(blockLocations);
+        this.blockLocations = new HashSet<>(blockLocations);
         this.level = 0;
         this.health = Main.instance.config.builds.get(type).heath.get(level);
         List<Integer> collidingFoundationsIDs = new ArrayList<>();
@@ -127,7 +128,11 @@ public class Build {
     }
 
     public List<PluginLocation> getBlockLocations() {
-        return Arrays.asList(new Gson().fromJson(blockLocations, PluginLocation[].class));
+        //if (blockLocationsList == null) {
+        //    return Arrays.asList(new Gson().fromJson(blockLocations, PluginLocation[].class));
+        //}
+        //return blockLocationsList;
+        return new ArrayList<>(blockLocations);
     }
 
     public PluginLocation getRootLocation() {

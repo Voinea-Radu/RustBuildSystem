@@ -30,6 +30,7 @@ public class BuildSession {
     public Build targetBuild;
     public List<Build> collidingFoundations;
     public boolean canCollide;
+    public PluginLocation lastPreviewLocation;
 
     public BuildSession(User user, BuildSchematic schematic) {
         this.user = user;
@@ -40,6 +41,8 @@ public class BuildSession {
         this.canCollideWithFoundation = false;
         this.targetBuild = null;
         this.collidingFoundations = new ArrayList<>();
+        this.canCollide = false;
+        this.lastPreviewLocation = null;
     }
 
     public void clearPlaceholders() {
@@ -69,6 +72,13 @@ public class BuildSession {
 
         //Set the target root to the target block
         this.root = new PluginLocation(target.getLocation());
+
+        if (this.root.equals(lastPreviewLocation)) {
+            return;
+        }else{
+            this.lastPreviewLocation =this.root;
+        }
+
         if (isFoundation()) {
             this.canCollide = true;
             if (target.getType().equals(Material.AIR)) {
@@ -138,7 +148,7 @@ public class BuildSession {
 
                 for (Position offset : positions) {
                     PluginLocation check = this.root.newOffset(offset);
-                    for (int i = (int) (this.root.y - 5); i <= this.root.y + 5; i++) {
+                    for (int i = (int) (this.root.y - 2); i <= this.root.y + 2; i++) {
                         check.y = i;
                         if (Main.instance.databaseManager.getBuild(check) != null) {
                             return;
@@ -250,9 +260,7 @@ public class BuildSession {
             }
 
             canBuild = false;
-            placeholders.forEach(l -> {
-                user.getPlayer().sendBlockChange(l.toLocation(), XMaterial.RED_STAINED_GLASS.parseMaterial(), XMaterial.RED_STAINED_GLASS.getData());
-            });
+            placeholders.forEach(l -> user.getPlayer().sendBlockChange(l.toLocation(), XMaterial.RED_STAINED_GLASS.parseMaterial(), XMaterial.RED_STAINED_GLASS.getData()));
         }
 
         if (!canBuild) {
@@ -261,6 +269,7 @@ public class BuildSession {
     }
 
     public void build() {
+        preview();
         this.clearPlaceholders();
 
         if (this.root == null) {
@@ -274,13 +283,23 @@ public class BuildSession {
             return;
         }
 
+        if(!this.isFoundation()){
+            if(Main.instance.databaseManager.getBuild(this.root.newUnOffset(this.schematic.rootOffset))==null){
+                return;
+            }
+        }
+
         for (PluginLocation location : this.placeholders) {
             PluginLocation offset = location.newUnOffset(this.root);
             if (this.rotate) {
                 offset.flip();
             }
+            if(!this.schematic.offsets.containsKey(offset.toPosition())){
+                return;
+            }
             location.setBlock(this.schematic.offsets.get(offset.toPosition()).get(0).parseMaterial());
         }
+
 
 
         Main.instance.databaseManager.save(

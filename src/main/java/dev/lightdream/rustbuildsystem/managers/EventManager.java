@@ -27,6 +27,7 @@ public class EventManager implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
+
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         User user = plugin.databaseManager.getUser(event.getPlayer());
@@ -55,6 +56,7 @@ public class EventManager implements Listener {
         BuildSession buildSession = buildMode.get(user);
         buildSession.preview();
     }
+
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
