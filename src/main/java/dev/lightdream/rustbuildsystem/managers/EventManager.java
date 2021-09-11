@@ -20,6 +20,7 @@ public class EventManager implements Listener {
     private final Main plugin;
     public HashMap<User, BuildSession> buildMode = new HashMap<>();
     public List<User> upgradeMode = new ArrayList<>();
+    public HashMap<User, Integer> playerMap = new HashMap<>();
 
     public EventManager(Main plugin) {
         this.plugin = plugin;
@@ -34,6 +35,17 @@ public class EventManager implements Listener {
         }
         if (!buildMode.containsKey(user)) {
             return;
+        }
+
+        if (playerMap.containsKey(user)) {
+            Integer i = playerMap.get(user);
+            if (i < Main.instance.config.stepsForUpdate) {
+                i++;
+                playerMap.put(user, i);
+                return;
+            }
+        } else {
+            playerMap.put(user, 0);
         }
 
         //Preview the build session
@@ -68,7 +80,7 @@ public class EventManager implements Listener {
         }
 
         if (upgradeMode.contains(user)) {
-            if (build.ownerId == user.id){
+            if (build.ownerId == user.id) {
                 build.upgrade();
                 event.setCancelled(true);
                 return;

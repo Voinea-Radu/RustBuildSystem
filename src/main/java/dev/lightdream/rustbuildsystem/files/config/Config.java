@@ -12,58 +12,7 @@ import java.util.List;
 public class Config extends dev.lightdream.api.files.config.Config {
 
     public HashMap<String, BuildSchematic> builds = new HashMap<String, BuildSchematic>() {{
-        put("wall", new BuildSchematic(
-                "wall",
-                new Position(0, 1, 0),
-                new HashMap<Position, List<XMaterial>>() {{
-                    put(new Position(0, 0, -2), Arrays.asList(XMaterial.DARK_OAK_LOG, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new Position(0, 0, -1), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new Position(0, 0, 0), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new Position(0, 0, 1), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new Position(0, 0, 2), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-
-                    put(new Position(0, 1, -2), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new Position(0, 1, -1), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new Position(0, 1, 0), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new Position(0, 1, 1), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new Position(0, 1, 2), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-
-                    put(new Position(0, 2, -2), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new Position(0, 2, -1), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new Position(0, 2, 0), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new Position(0, 2, 1), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new Position(0, 2, 2), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-
-                    put(new Position(0, 3, -2), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new Position(0, 3, -1), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new Position(0, 3, 0), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new Position(0, 3, 1), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new Position(0, 3, 2), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                }},
-                Arrays.asList(
-                        new Cost(new HashMap<XMaterial, Integer>() {{
-                            put(XMaterial.OAK_PLANKS, 20);
-                        }}),
-                        new Cost(new HashMap<XMaterial, Integer>() {{
-                            put(XMaterial.COBBLESTONE, 20);
-                        }}),
-                        new Cost(new HashMap<XMaterial, Integer>() {{
-                            put(XMaterial.OBSIDIAN, 20);
-                        }})
-                ),
-                false,
-                true,
-                Arrays.asList(100, 1000, 10000)
-        ));
-
-
-    }};
-
-    public int maxY = 70;
-
-}
-
-/*        put("foundation", new BuildSchematic(
+        put("foundation", new BuildSchematic(
                 "foundation",
                 new Position(0, 1, 0),
                 new HashMap<Position, List<XMaterial>>() {{
@@ -217,5 +166,13 @@ public class Config extends dev.lightdream.api.files.config.Config {
                 false,
                 Arrays.asList(100, 1000, 10000)
         ));
+    }};
+
+    public int maxY = 70;
+    public int stepsForUpdate = 10;
+
+}
+
+/*
 
  */
