@@ -2,6 +2,7 @@ package dev.lightdream.rustbuildsystem.files.dto;
 
 import dev.lightdream.api.files.dto.XMaterial;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -9,6 +10,7 @@ import java.util.HashMap;
 
 @SuppressWarnings("unchecked")
 @AllArgsConstructor
+@NoArgsConstructor
 public class Cost {
 
     public HashMap<XMaterial, Integer> materials;

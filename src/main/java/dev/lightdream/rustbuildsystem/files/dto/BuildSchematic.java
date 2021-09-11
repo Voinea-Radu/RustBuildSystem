@@ -19,4 +19,17 @@ public class BuildSchematic {
     public boolean placedOnGround;
     public boolean placeOnMargin;
     public List<Integer> heath;
+
+    @Override
+    public String toString() {
+        return "BuildSchematic{" +
+                "type='" + type + '\'' +
+                ", rootOffset=" + rootOffset +
+                ", offsets=" + offsets +
+                ", cost=" + cost +
+                ", placedOnGround=" + placedOnGround +
+                ", placeOnMargin=" + placeOnMargin +
+                ", heath=" + heath +
+                '}';
+    }
 }
