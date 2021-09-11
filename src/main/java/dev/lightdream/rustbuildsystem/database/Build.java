@@ -1,10 +1,10 @@
 package dev.lightdream.rustbuildsystem.database;
 
 import com.google.gson.Gson;
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
 import dev.lightdream.api.files.dto.PluginLocation;
 import dev.lightdream.api.files.dto.Position;
+import dev.lightdream.libs.j256.field.DatabaseField;
+import dev.lightdream.libs.j256.table.DatabaseTable;
 import dev.lightdream.rustbuildsystem.Main;
 import dev.lightdream.rustbuildsystem.files.dto.Cost;
 import lombok.NoArgsConstructor;
