@@ -14,6 +14,7 @@ import dev.lightdream.rustbuildsystem.managers.EventManager;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -32,7 +33,7 @@ public final class Main extends LightDreamPlugin {
 
     @Override
     public void onEnable() {
-        init("RustBuildSystem", "rbs", "1.7");
+        init("RustBuildSystem", "rbs", "1.8");
         instance = this;
         eventManager = new EventManager(this);
         databaseManager = new DatabaseManager(this);
@@ -96,6 +97,16 @@ public final class Main extends LightDreamPlugin {
         });
 
         return langs;
+    }
+
+    @Override
+    public JavaPlugin getPlugin() {
+        return this;
+    }
+
+    @Override
+    public DatabaseManager getDatabaseManager() {
+        return databaseManager;
     }
 
 

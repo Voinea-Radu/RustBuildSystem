@@ -2,7 +2,6 @@ package dev.lightdream.rustbuildsystem.managers;
 
 import dev.lightdream.api.LightDreamPlugin;
 import dev.lightdream.api.files.dto.PluginLocation;
-import dev.lightdream.api.managers.local.LocalDatabaseManager;
 import dev.lightdream.rustbuildsystem.database.Build;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
@@ -13,7 +12,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("unchecked")
-public class DatabaseManager extends LocalDatabaseManager {
+public class DatabaseManager extends dev.lightdream.api.managers.DatabaseManager {
     public DatabaseManager(LightDreamPlugin plugin) {
         super(plugin);
 
