@@ -300,17 +300,19 @@ public class BuildSession {
         this.placeholders.forEach((location, material) -> {
             location.setBlock(material.parseMaterial());
         });
-
+        Build build = new Build(
+                this.user.id,
+                this.schematic.type,
+                this.schematic.type.equals("foundation") ? -1 : targetBuild.id,
+                this.root,
+                new ArrayList<>(this.placeholders.keySet()),
+                this.collidingFoundations);
 
         Main.instance.databaseManager.save(
-                new Build(
-                        this.user.id,
-                        this.schematic.type,
-                        this.schematic.type.equals("foundation") ? -1 : targetBuild.id,
-                        this.root,
-                        new ArrayList<>(this.placeholders.keySet()),
-                        this.collidingFoundations)
+                build
         );
+
+        Main.instance.databaseManager.builds.add(build);
 
         for (Build foundation : this.collidingFoundations) {
             foundation.addCollidingFoundation(Main.instance.databaseManager.getBuild(this.root));
