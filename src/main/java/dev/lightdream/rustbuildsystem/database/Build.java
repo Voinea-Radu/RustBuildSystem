@@ -1,6 +1,6 @@
 package dev.lightdream.rustbuildsystem.database;
 
-import com.google.gson.Gson;
+import dev.lightdream.api.databases.DatabaseDeletable;
 import dev.lightdream.api.files.dto.PluginLocation;
 import dev.lightdream.api.files.dto.Position;
 import dev.lightdream.libs.j256.field.DataType;
@@ -16,7 +16,7 @@ import java.util.*;
 
 @DatabaseTable(tableName = "builds")
 @NoArgsConstructor
-public class Build {
+public class Build implements DatabaseDeletable {
 
     @DatabaseField(columnName = "id", generatedId = true, canBeNull = false)
     public int id;
@@ -34,8 +34,8 @@ public class Build {
     public int level;
     @DatabaseField(columnName = "health")
     public Integer health;
-    @DatabaseField(columnName = "colliding_foundations")
-    public String collidingFoundations;
+    @DatabaseField(columnName = "colliding_foundations", dataType = DataType.SERIALIZABLE)
+    public HashSet<Integer> collidingFoundations;
 
     //private List<PluginLocation> blockLocationsList;
 
@@ -51,7 +51,7 @@ public class Build {
         this.health = Main.instance.config.builds.get(type).heath.get(level);
         List<Integer> collidingFoundationsIDs = new ArrayList<>();
         collidingFoundations.forEach(build -> collidingFoundationsIDs.add(build.id));
-        this.collidingFoundations = new Gson().toJson(collidingFoundationsIDs);
+        this.collidingFoundations = new HashSet<>(collidingFoundationsIDs);
     }
 
     public boolean isFoundation() {
@@ -72,19 +72,19 @@ public class Build {
         List<PluginLocation> blockLocations = getBlockLocations();
         for (PluginLocation location : blockLocations) {
             if (minX >= location.x) {
-                minX = (int) location.x;
+                minX = (int) Math.floor(location.x);
             }
             if (minZ >= location.z) {
-                minZ = (int) location.z;
+                minZ = (int) Math.floor(location.z);
             }
             if (maxX <= location.x) {
-                maxX = (int) location.x;
+                maxX = (int) Math.floor(location.x);
             }
             if (maxZ <= location.z) {
-                maxZ = (int) location.z;
+                maxZ = (int) Math.floor(location.z);
             }
             if (maxY <= location.y) {
-                maxY = (int) location.y;
+                maxY = (int) Math.floor(location.y);
             }
         }
         if (!fullRotations) {
@@ -160,24 +160,21 @@ public class Build {
     }
 
     public void destroy() {
+        System.out.println("Destroying id = " + this.id);
         if (isFoundation()) {
-            Main.instance.databaseManager.getBuilds(this.id).forEach(build -> destroy());
+            Main.instance.databaseManager.getBuilds(this.id).forEach(Build::destroy);
         }
 
-        this.getBlockLocations().forEach(location -> {
-            location.setBlock(Material.AIR);
-        });
+        getCollidingFoundations().forEach(build -> build.rebuild(new ArrayList<>()));
 
-        getCollidingFoundations().forEach(build -> {
-            build.rebuild();
-        });
+        this.getBlockLocations().forEach(location -> location.setBlock(Material.AIR));
 
         Main.instance.databaseManager.delete(this);
 
         if (isWall()) {
             List<Build> walls = Main.instance.databaseManager.getBuilds(foundationID, "wall");
             if (walls.size() == 0) {
-                Main.instance.databaseManager.getBuilds(foundationID).forEach(build -> destroy());
+                Main.instance.databaseManager.getBuilds(foundationID).forEach(Build::destroy);
             }
         }
     }
@@ -224,7 +221,8 @@ public class Build {
         }
     }
 
-    public void rebuild() {
+    public void rebuild(List<Build> rebuilt) {
+        System.out.println("Rebuilding id = " + this.id);
         List<Build> builds;
         if (isFoundation() || isRoof()) {
             builds = Main.instance.databaseManager.getBuilds(this.id);
@@ -235,7 +233,11 @@ public class Build {
         builds.remove(this);
 
         for (Build build : builds) {
-            build.rebuild();
+            if (rebuilt.contains(build)) {
+                continue;
+            }
+            rebuilt.add(build);
+            build.rebuild(rebuilt);
         }
 
         build();
@@ -263,7 +265,7 @@ public class Build {
 
     public List<Build> getCollidingFoundations() {
         List<Build> collidingFoundations = new ArrayList<>();
-        for (Integer id : new Gson().fromJson(this.collidingFoundations, Integer[].class)) {
+        for (Integer id : new ArrayList<>(this.collidingFoundations)) {
             Build build = Main.instance.databaseManager.getBuild(id);
             if (build == null) {
                 continue;
@@ -277,9 +279,12 @@ public class Build {
         if (build == null) {
             return;
         }
-        List<Integer> collidingFoundationsID = new ArrayList<>(Arrays.asList(new Gson().fromJson(this.collidingFoundations, Integer[].class)));
-        collidingFoundationsID.add(build.id);
-        this.collidingFoundations = new Gson().toJson(collidingFoundationsID);
+        collidingFoundations.add(build.id);
         Main.instance.databaseManager.save(this);
+    }
+
+    @Override
+    public int getID() {
+        return this.id;
     }
 }

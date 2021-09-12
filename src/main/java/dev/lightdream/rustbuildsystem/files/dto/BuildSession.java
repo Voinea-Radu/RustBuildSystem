@@ -14,6 +14,7 @@ import org.bukkit.block.Block;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 @SuppressWarnings({"deprecation"})
@@ -23,7 +24,7 @@ public class BuildSession {
 
     public User user;
     public BuildSchematic schematic;
-    public List<PluginLocation> placeholders;
+    public HashMap<PluginLocation, XMaterial> placeholders;
     public PluginLocation root;
     public boolean rotate;
     public boolean canCollideWithFoundation;
@@ -35,7 +36,7 @@ public class BuildSession {
     public BuildSession(User user, BuildSchematic schematic) {
         this.user = user;
         this.schematic = schematic;
-        this.placeholders = new ArrayList<>();
+        this.placeholders = new HashMap<>();
         this.root = null;
         this.rotate = false;
         this.canCollideWithFoundation = false;
@@ -46,7 +47,7 @@ public class BuildSession {
     }
 
     public void clearPlaceholders() {
-        placeholders.forEach(location -> {
+        placeholders.forEach((location, material) -> {
             user.getPlayer().sendBlockChange(location.toLocation(), location.getBlock().getType(), location.getBlock().getData());
         });
     }
@@ -75,8 +76,8 @@ public class BuildSession {
 
         if (this.root.equals(lastPreviewLocation)) {
             return;
-        }else{
-            this.lastPreviewLocation =this.root;
+        } else {
+            this.lastPreviewLocation = this.root;
         }
 
         if (isFoundation()) {
@@ -105,7 +106,7 @@ public class BuildSession {
 
         //Clear the old sub-session
         clearPlaceholders();
-        this.placeholders = new ArrayList<>();
+        this.placeholders = new HashMap<>();
         this.canCollideWithFoundation = false;
 
         //Get if there are any builds on the root
@@ -130,6 +131,8 @@ public class BuildSession {
             } else {
                 this.canCollideWithFoundation = true;
                 this.root = foundation.getRootLocation();
+                System.out.println(foundation);
+                System.out.println(foundation.getRootLocation());
             }
         } else {
             if (this.targetBuild == null) {
@@ -148,7 +151,7 @@ public class BuildSession {
                 for (Position offset : positions) {
                     PluginLocation check = this.root.newOffset(offset);
                     for (int i = (int) (this.root.y - 2); i <= this.root.y + 2; i++) {
-                        check.y = i;
+                        check.y = (double) i;
                         if (Main.instance.databaseManager.getBuild(check) != null) {
                             return;
                         }
@@ -199,7 +202,7 @@ public class BuildSession {
                             check.offset(offset2);
 
                             for (int i = (int) (this.root.y - 10); i <= this.root.y; i++) {
-                                check.y = i;
+                                check.y = (double) i;
                                 if (Main.instance.databaseManager.getBuild(check) != null) {
                                     return;
                                 }
@@ -218,6 +221,8 @@ public class BuildSession {
         this.rotate = this.root.rotationX == 90;
         this.root = this.root.newOffset(this.schematic.rootOffset);
 
+        System.out.println(this.root);
+
         if (Main.instance.databaseManager.getBuild(this.root) != null) {
             return;
         }
@@ -235,7 +240,7 @@ public class BuildSession {
                 if (b != null && b.isFoundation()) {
                     user.getPlayer().sendBlockChange(location.toLocation(), canBuild ? XMaterial.LIME_STAINED_GLASS.parseMaterial() : XMaterial.RED_STAINED_GLASS.parseMaterial(),
                             canBuild ? XMaterial.LIME_STAINED_GLASS.getData() : XMaterial.LIME_STAINED_GLASS.getData());
-                    placeholders.add(location);
+                    placeholders.put(location, schematic.offsets.get(position).get(0));
                     continue;
                 }
             }
@@ -250,7 +255,7 @@ public class BuildSession {
             if (location.getBlock().getType().equals(Material.AIR)) {
                 user.getPlayer().sendBlockChange(location.toLocation(), canBuild ? XMaterial.LIME_STAINED_GLASS.parseMaterial() : XMaterial.RED_STAINED_GLASS.parseMaterial(),
                         canBuild ? XMaterial.LIME_STAINED_GLASS.getData() : XMaterial.LIME_STAINED_GLASS.getData());
-                placeholders.add(location);
+                placeholders.put(location, schematic.offsets.get(position).get(0));
                 continue;
             }
 
@@ -259,7 +264,7 @@ public class BuildSession {
             }
 
             canBuild = false;
-            placeholders.forEach(l -> user.getPlayer().sendBlockChange(l.toLocation(), XMaterial.RED_STAINED_GLASS.parseMaterial(), XMaterial.RED_STAINED_GLASS.getData()));
+            placeholders.forEach((l, m) -> user.getPlayer().sendBlockChange(l.toLocation(), XMaterial.RED_STAINED_GLASS.parseMaterial(), XMaterial.RED_STAINED_GLASS.getData()));
         }
 
         if (!canBuild) {
@@ -272,41 +277,38 @@ public class BuildSession {
         this.clearPlaceholders();
 
         if (this.root == null) {
+            System.out.println(1);
             return;
         }
         if (!this.schematic.cost.get(0).has(user.getPlayer())) {
+            System.out.println(2);
             return;
         }
         this.schematic.cost.get(0).take(user.getPlayer());
         if (!canBuild()) {
+            System.out.println(3);
             return;
         }
 
-        if(!this.isFoundation()){
-            if(Main.instance.databaseManager.getBuild(this.root.newUnOffset(this.schematic.rootOffset))==null){
+        if (!this.isFoundation()) {
+            if (targetBuild == null) {
+                System.out.println(4);
                 return;
             }
         }
 
-        for (PluginLocation location : this.placeholders) {
-            PluginLocation offset = location.newUnOffset(this.root);
-            if (this.rotate) {
-                offset.flip();
-            }
-            if(!this.schematic.offsets.containsKey(offset.toPosition())){
-                return;
-            }
-            location.setBlock(this.schematic.offsets.get(offset.toPosition()).get(0).parseMaterial());
-        }
+        this.placeholders.forEach((location, material) -> {
+            location.setBlock(material.parseMaterial());
+        });
 
 
         Main.instance.databaseManager.save(
                 new Build(
                         this.user.id,
                         this.schematic.type,
-                        this.schematic.type.equals("foundation") ? -1 : Main.instance.databaseManager.getBuild(this.root.newUnOffset(this.schematic.rootOffset)).id,
+                        this.schematic.type.equals("foundation") ? -1 : targetBuild.id,
                         this.root,
-                        this.placeholders,
+                        new ArrayList<>(this.placeholders.keySet()),
                         this.collidingFoundations)
         );
 
@@ -317,6 +319,7 @@ public class BuildSession {
 
     private boolean canBuild() {
         if (this.root.y >= Main.instance.config.maxY) {
+            System.out.println(3.1);
             return false;
         }
 
@@ -330,17 +333,15 @@ public class BuildSession {
             if (target.getType().equals(Material.AIR)) {
                 PluginLocation check = new PluginLocation(target.getLocation()).newOffset(new Position(0, -2, 0));
                 if (check.getBlock().getType().equals(Material.AIR)) {
+                    System.out.println(3.2);
                     return false;
                 }
             }
         } else {
             if (target.getType().equals(Material.AIR)) {
+                System.out.println(3.3);
                 return false;
             }
-        }
-
-        if (new PluginLocation(target.getLocation()).toLocation().distance(user.getPlayer().getLocation()) <= 2) {
-            return false;
         }
 
         for (Position position : this.schematic.offsets.keySet()) {
@@ -373,6 +374,7 @@ public class BuildSession {
                 continue;
             }
 
+            System.out.println(3.5);
             return false;
         }
         return true;

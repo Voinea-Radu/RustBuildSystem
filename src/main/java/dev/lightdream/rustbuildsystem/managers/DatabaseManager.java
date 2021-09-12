@@ -2,6 +2,7 @@ package dev.lightdream.rustbuildsystem.managers;
 
 import dev.lightdream.api.LightDreamPlugin;
 import dev.lightdream.api.files.dto.PluginLocation;
+import dev.lightdream.libs.j256.dao.Dao;
 import dev.lightdream.rustbuildsystem.database.Build;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
@@ -45,6 +46,4 @@ public class DatabaseManager extends dev.lightdream.api.managers.DatabaseManager
 
         return optionalBuild.orElse(null);
     }
-
-
 }
