@@ -1,6 +1,5 @@
 package dev.lightdream.rustbuildsystem.database;
 
-import dev.lightdream.api.databases.DatabaseDeletable;
 import dev.lightdream.api.files.dto.PluginLocation;
 import dev.lightdream.api.files.dto.Position;
 import dev.lightdream.libs.j256.field.DataType;
@@ -16,7 +15,7 @@ import java.util.*;
 
 @DatabaseTable(tableName = "builds")
 @NoArgsConstructor
-public class Build implements DatabaseDeletable {
+public class Build {
 
     @DatabaseField(columnName = "id", generatedId = true, canBeNull = false)
     public int id;
@@ -60,7 +59,8 @@ public class Build implements DatabaseDeletable {
 
     @SuppressWarnings("IntegerDivisionInFloatingPointContext")
     public List<PluginLocation> getMarinRoots(boolean fullRotations, boolean corners) {
-        if (!isFoundation()) {
+        if (isRoof()||isFoundation()) {
+        }else{
             return new ArrayList<>();
         }
 
@@ -161,7 +161,7 @@ public class Build implements DatabaseDeletable {
 
     public void destroy() {
         System.out.println("Destroying id = " + this.id);
-        if (isFoundation()) {
+        if (isFoundation()||isRoof()) {
             Main.instance.databaseManager.getBuilds(this.id).forEach(Build::destroy);
         }
 
@@ -281,10 +281,5 @@ public class Build implements DatabaseDeletable {
         }
         collidingFoundations.add(build.id);
         Main.instance.databaseManager.save(this);
-    }
-
-    @Override
-    public int getID() {
-        return this.id;
     }
 }

@@ -14,7 +14,7 @@ import java.util.List;
 
 public class BuildCommand extends Command {
     public BuildCommand(@NotNull LightDreamPlugin plugin) {
-        super(plugin, Collections.singletonList("build"), "", "", true, false, "[foundation]");
+        super(plugin, Collections.singletonList("build"), "", "", true, false, "[type]");
     }
 
     @Override
@@ -33,7 +33,7 @@ public class BuildCommand extends Command {
             Main.instance.eventManager.buildMode.get(user).clearPlaceholders();
         }
 
-        Main.instance.eventManager.buildMode.put(user, new BuildSession(user, Main.instance.config.builds.get(args.get(0))));
+        Main.instance.eventManager.buildMode.put(user, Main.instance.config.builds.get(args.get(0)).getBuildSession(user));
     }
 
     @Override

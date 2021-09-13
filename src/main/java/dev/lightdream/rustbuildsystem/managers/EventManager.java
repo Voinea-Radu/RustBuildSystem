@@ -38,18 +38,19 @@ public class EventManager implements Listener {
             return;
         }
 
-        if (playerMap.containsKey(user)) {
-            Integer i = playerMap.get(user);
-            if (i < Main.instance.config.stepsForUpdate) {
-                i++;
+        if(Main.instance.config.stepsForUpdate!=0){
+            if (playerMap.containsKey(user)) {
+                Integer i = playerMap.get(user);
+                if (i < Main.instance.config.stepsForUpdate) {
+                    i++;
+                    playerMap.put(user, i);
+                    return;
+                }
+                i = 0;
                 playerMap.put(user, i);
-                return;
+            } else {
+                playerMap.put(user, 0);
             }
-            i = 0;
-            playerMap.put(user, i);
-        } else {
-            playerMap.put(user, 0);
-            return;
         }
 
         //Preview the build session
