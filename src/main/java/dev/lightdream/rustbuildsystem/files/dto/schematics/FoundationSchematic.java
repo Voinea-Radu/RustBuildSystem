@@ -17,13 +17,16 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class FoundationSchematic extends BuildSchematic {
-    public FoundationSchematic() {
-    }
+@AllArgsConstructor
+@NoArgsConstructor
+public class FoundationSchematic implements BuildSchematic {
 
-    public FoundationSchematic(String type, Position rootOffset, HashMap<Position, List<XMaterial>> offsets, List<Cost> cost, List<Integer> heath, int canCollideUnder) {
-        super(type, rootOffset, offsets, cost, heath, canCollideUnder);
-    }
+    private String type;
+    private Position rootOffset;
+    private HashMap<Position, List<XMaterial>> offsets;
+    private List<Cost> cost;
+    private List<Integer> heath;
+    private int canCollideUnder;
 
     @Override
     public boolean isRoof() {
@@ -48,6 +51,36 @@ public class FoundationSchematic extends BuildSchematic {
     @Override
     public BuildSession getBuildSession(User user) {
         return new FoundationSession(user, this);
+    }
+
+    @Override
+    public String getType() {
+        return type;
+    }
+
+    @Override
+    public Position getRootOffsets() {
+        return rootOffset;
+    }
+
+    @Override
+    public HashMap<Position, List<XMaterial>> getOffsets() {
+        return offsets;
+    }
+
+    @Override
+    public List<Cost> getCost() {
+        return cost;
+    }
+
+    @Override
+    public List<Integer> getHeath() {
+        return heath;
+    }
+
+    @Override
+    public int getCanCollideUnder() {
+        return canCollideUnder;
     }
 
 }

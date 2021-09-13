@@ -3,7 +3,6 @@ package dev.lightdream.rustbuildsystem.files.dto.sessions;
 import dev.lightdream.api.databases.User;
 import dev.lightdream.api.files.dto.PluginLocation;
 import dev.lightdream.api.files.dto.Position;
-import dev.lightdream.api.files.dto.XMaterial;
 import dev.lightdream.rustbuildsystem.Main;
 import dev.lightdream.rustbuildsystem.Utils;
 import dev.lightdream.rustbuildsystem.database.Build;
@@ -29,30 +28,36 @@ public class FoundationSession extends BuildSession {
         Block target = Utils.getTargetBlock(user.getPlayer(), 8, false, true);
         this.targetBuild = null;
 
-        if (this.root != null) {
-            if (this.root.equals(new PluginLocation(target.getLocation()))) {
-                return;
-            }
-        }
+        //if (this.root != null) {
+        //    if (this.root.equals(new PluginLocation(target.getLocation()))) {
+        //        return;
+        //    }
+        //}
+        /*
+         PluginLocation{world='world', rotationX=0.0, rotationY=0.0, x=36.0, y=64.0, z=-8.0} ->
+         PluginLocation{world='world', rotationX=270.0, rotationY=0.0, x=36.0, y=64.0, z=-9.0}
+         (Build{id=3, ownerId=0, type='foundation', foundationID=-1, rootLocation='PluginLocation{world='world', rotationX=180.0, rotationY=0.0, x=37.0, y=64.0, z=-7.0}', blockLocations='[PluginLocation{world='world', rotationX=180.0, rotationY=0.0, x=35.0, y=63.0, z=-5.0}, PluginLocation{world='world', rotationX=180.0, rotationY=0.0, x=38.0, y=64.0, z=-9.0}, PluginLocation{world='world', rotationX=180.0, rotationY=0.0, x=37.0, y=64.0, z=-9.0}, PluginLocation{world='world', rotationX=180.0, rotationY=0.0, x=36.0, y=64.0, z=-9.0}, PluginLocation{world='world', rotationX=180.0, rotationY=0.0, x=35.0, y=64.0, z=-9.0}, PluginLocation{world='world', rotationX=180.0, rotationY=0.0, x=38.0, y=64.0, z=-8.0}, PluginLocation{world='world', rotationX=180.0, rotationY=0.0, x=37.0, y=64.0, z=-8.0}, PluginLocation{world='world', rotationX=180.0, rotationY=0.0, x=36.0, y=64.0, z=-8.0}, PluginLocation{world='world', rotationX=180.0, rotationY=0.0, x=35.0, y=64.0, z=-8.0}, PluginLocation{world='world', rotationX=180.0, rotationY=0.0, x=38.0, y=64.0, z=-7.0}, PluginLocation{world='world', rotationX=180.0, rotationY=0.0, x=37.0, y=64.0, z=-7.0}, PluginLocation{world='world', rotationX=180.0, rotationY=0.0, x=36.0, y=64.0, z=-7.0}, PluginLocation{world='world', rotationX=180.0, rotationY=0.0, x=35.0, y=64.0, z=-7.0}, PluginLocation{world='world', rotationX=180.0, rotationY=0.0, x=38.0, y=64.0, z=-6.0}, PluginLocation{world='world', rotationX=180.0, rotationY=0.0, x=36.0, y=64.0, z=-6.0}, PluginLocation{world='world', rotationX=180.0, rotationY=0.0, x=37.0, y=64.0, z=-6.0}, PluginLocation{world='world', rotationX=180.0, rotationY=0.0, x=35.0, y=64.0, z=-6.0}, PluginLocation{world='world', rotationX=180.0, rotationY=0.0, x=38.0, y=64.0, z=-5.0}, PluginLocation{world='world', rotationX=180.0, rotationY=0.0, x=36.0, y=64.0, z=-5.0}, PluginLocation{world='world', rotationX=180.0, rotationY=0.0, x=37.0, y=64.0, z=-5.0}, PluginLocation{world='world', rotationX=180.0, rotationY=0.0, x=35.0, y=64.0, z=-5.0}, PluginLocation{world='world', rotationX=180.0, rotationY=0.0, x=35.0, y=63.0, z=-9.0}]', level=0})
 
-        if(target == null){
+         */
+
+        if (target == null) {
             return;
         }
 
         this.root = new PluginLocation(target.getLocation());
-            clearPlaceholders();
-            this.placeholders = new HashMap<>();
+        clearPlaceholders();
+        this.placeholders = new HashMap<>();
 
-            if(root== null){
-                return;
-            }
+        if (root == null) {
+            return;
+        }
 
         this.targetBuild = Main.instance.databaseManager.getBuild(this.root);
 
 
         if (target.getType().equals(Material.AIR)) {
             if (this.root.newOffset(new Position(0, -2, 0)).getBlock().getType().equals(Material.AIR)) {
-                this.root=null;
+                this.root = null;
                 return;
             }
         }
@@ -86,8 +91,10 @@ public class FoundationSession extends BuildSession {
             }
         } else {
             if (this.targetBuild.isFoundation() || this.targetBuild.isRoof()) {
-                this.root = this.targetBuild.getClosestMarginRoot(this.root, true, true);
-                //this.canCollideWithFoundation = true;
+                //System.out.println(this.root + " -> " + );
+                PluginLocation p = this.root;
+                this.root = this.targetBuild.getClosestMarginRoot(this.root, true, false);
+                System.out.println(p + " -> " + this.root + " (" + this.targetBuild + ")");
                 switch ((int) this.root.rotationX) {
                     case 0:
                         this.root.offset(2, 0, 0);
@@ -114,14 +121,14 @@ public class FoundationSession extends BuildSession {
                         this.root.offset(2, 0, -2);
                         break;
                 }
-                this.root.unOffset(schematic.rootOffset);
+                    this.root.unOffset(schematic.getRootOffsets());
             }
         }
         if (this.root == null) {
             return;
         }
 
-        this.root = this.root.newOffset(this.schematic.rootOffset);
+        this.root = this.root.newOffset(this.schematic.getRootOffsets());
 
         if (Main.instance.databaseManager.getBuild(this.root) != null) {
             return;
@@ -138,9 +145,9 @@ public class FoundationSession extends BuildSession {
     public boolean canBuild() {
         boolean canBuild = true;
 
-        for (Position position : this.schematic.offsets.keySet()) {
+        for (Position position : this.schematic.getOffsets().keySet()) {
             PluginLocation location = this.root.newOffset(position);
-            placeholders.put(location, schematic.offsets.get(position).get(0));
+            placeholders.put(location, schematic.getOffsets().get(position).get(0));
 
             if (!canBuild) {
                 continue;
@@ -148,12 +155,12 @@ public class FoundationSession extends BuildSession {
 
             Build b = Main.instance.databaseManager.getBuild(location);
             if (b != null) {
-                if (this.schematic.type.equals(b.type)) {
+                if (this.schematic.getType().equals(b.type)) {
                     continue;
                 }
             }
 
-            if (position.y <= this.schematic.canCollideUnder) {
+            if (position.y <= this.schematic.getCanCollideUnder()) {
                 continue;
             }
 

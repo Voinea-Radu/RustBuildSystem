@@ -73,7 +73,7 @@ public class PlaceableSession extends BuildSession {
             return;
         }
 
-        this.root = this.root.newOffset(this.schematic.rootOffset);
+        this.root = this.root.newOffset(this.schematic.getRootOffsets());
 
         if (Main.instance.databaseManager.getBuild(this.root) != null) {
             System.out.println(8);
@@ -92,9 +92,9 @@ public class PlaceableSession extends BuildSession {
     public boolean canBuild() {
         boolean canBuild = true;
 
-        for (Position position : this.schematic.offsets.keySet()) {
+        for (Position position : this.schematic.getOffsets().keySet()) {
             PluginLocation location = this.root.newOffset(position);
-            placeholders.put(location, schematic.offsets.get(position).get(0));
+            placeholders.put(location, schematic.getOffsets().get(position).get(0));
 
             if (!canBuild) {
                 continue;
@@ -102,7 +102,7 @@ public class PlaceableSession extends BuildSession {
 
             Build b = Main.instance.databaseManager.getBuild(location);
             if (b != null) {
-                if (this.schematic.type.equals(b.type)) {
+                if (this.schematic.getType().equals(b.type)) {
                     continue;
                 }
             }

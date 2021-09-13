@@ -47,7 +47,7 @@ public class Build {
         //this.blockLocations = new Gson().toJson(blockLocations);
         this.blockLocations = new HashSet<>(blockLocations);
         this.level = 0;
-        this.health = Main.instance.config.builds.get(type).heath.get(level);
+        this.health = Main.instance.config.builds.get(type).getHeath().get(level);
         List<Integer> collidingFoundationsIDs = new ArrayList<>();
         collidingFoundations.forEach(build -> collidingFoundationsIDs.add(build.id));
         this.collidingFoundations = new HashSet<>(collidingFoundationsIDs);
@@ -198,12 +198,12 @@ public class Build {
 
     public void upgrade() {
         this.level++;
-        this.health = Main.instance.config.builds.get(this.type).heath.get(this.level);
-        Cost cost = Main.instance.config.builds.get(this.type).cost.get(this.level);
+        this.health = Main.instance.config.builds.get(this.type).getHeath().get(this.level);
+        Cost cost = Main.instance.config.builds.get(this.type).getCost().get(this.level);
         Player player = Main.instance.databaseManager.getUser(this.ownerId).getPlayer();
         if (!cost.has(player)) {
             this.level--;
-            this.health = Main.instance.config.builds.get(this.type).heath.get(this.level);
+            this.health = Main.instance.config.builds.get(this.type).getHeath().get(this.level);
             return;
         }
 
@@ -244,9 +244,9 @@ public class Build {
     }
 
     public void build() {
-        for (Position offset : Main.instance.config.builds.get(this.type).offsets.keySet()) {
+        for (Position offset : Main.instance.config.builds.get(this.type).getOffsets().keySet()) {
             PluginLocation location = getRootLocation().newOffset(offset);
-            location.setBlock(Main.instance.config.builds.get(this.type).offsets.get(offset).get(this.level).parseMaterial());
+            location.setBlock(Main.instance.config.builds.get(this.type).getOffsets().get(offset).get(this.level).parseMaterial());
         }
     }
 

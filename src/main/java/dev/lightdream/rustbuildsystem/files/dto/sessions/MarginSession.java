@@ -57,7 +57,7 @@ public class MarginSession extends BuildSession {
         if (this.root == null) {
             return;
         }
-        this.root = this.root.newOffset(this.schematic.rootOffset);
+        this.root = this.root.newOffset(this.schematic.getRootOffsets());
         this.rotate = this.root.rotationX == 90;
 
         boolean canBuild = canBuild();
@@ -72,17 +72,17 @@ public class MarginSession extends BuildSession {
     public boolean canBuild() {
         boolean canBuild = true;
 
-        for (Position position : this.schematic.offsets.keySet()) {
+        for (Position position : this.schematic.getOffsets().keySet()) {
             Position offset = position.clone();
             if (this.rotate) {
                 offset.flip();
             }
             PluginLocation location = this.root.newOffset(offset);
-            placeholders.put(location, schematic.offsets.get(position).get(0));
+            placeholders.put(location, schematic.getOffsets().get(position).get(0));
 
             Build b = Main.instance.databaseManager.getBuild(location);
             if (b != null) {
-                if (this.schematic.type.equals(b.type)) {
+                if (this.schematic.getType().equals(b.type)) {
                     continue;
                 }
             }

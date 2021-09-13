@@ -60,11 +60,11 @@ public abstract class BuildSession {
             System.out.println(1);
             return;
         }
-        if (!this.schematic.cost.get(0).has(user.getPlayer())) {
+        if (!this.schematic.getCost().get(0).has(user.getPlayer())) {
             System.out.println(2);
             return;
         }
-        this.schematic.cost.get(0).take(user.getPlayer());
+        this.schematic.getCost().get(0).take(user.getPlayer());
         if (!canBuild()) {
             System.out.println(3);
             return;
@@ -83,8 +83,8 @@ public abstract class BuildSession {
         });
         Build build = new Build(
                 this.user.id,
-                this.schematic.type,
-                this.schematic.type.equals("foundation") ? -1 : targetBuild.id,
+                this.schematic.getType(),
+                this.schematic.getType().equals("foundation") ? -1 : targetBuild.id,
                 this.root,
                 new ArrayList<>(this.placeholders.keySet()),
                 this.collidingFoundations);
