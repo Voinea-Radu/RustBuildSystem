@@ -1,17 +1,15 @@
 package dev.lightdream.rustbuildsystem.files.dto.schematics;
 
 import dev.lightdream.api.databases.User;
-import dev.lightdream.api.files.dto.PluginLocation;
 import dev.lightdream.api.files.dto.Position;
 import dev.lightdream.api.files.dto.XMaterial;
-import dev.lightdream.rustbuildsystem.Utils;
+import dev.lightdream.libs.fasterxml.annotation.JsonIgnore;
 import dev.lightdream.rustbuildsystem.files.dto.BuildSchematic;
 import dev.lightdream.rustbuildsystem.files.dto.BuildSession;
 import dev.lightdream.rustbuildsystem.files.dto.Cost;
 import dev.lightdream.rustbuildsystem.files.dto.sessions.FoundationSession;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.bukkit.block.Block;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,55 +27,67 @@ public class FoundationSchematic implements BuildSchematic {
     private int canCollideUnder;
 
     @Override
+    @JsonIgnore
+
     public boolean isRoof() {
         return false;
     }
 
+    @JsonIgnore
     @Override
     public boolean isFoundation() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isMargin() {
         return false;
     }
 
+    @JsonIgnore
     @Override
     public boolean isPlaceable() {
         return false;
     }
 
+    @JsonIgnore
     @Override
     public BuildSession getBuildSession(User user) {
         return new FoundationSession(user, this);
     }
 
+    @JsonIgnore
     @Override
     public String getType() {
         return type;
     }
 
+    @JsonIgnore
     @Override
     public Position getRootOffsets() {
         return rootOffset;
     }
 
+    @JsonIgnore
     @Override
     public HashMap<Position, List<XMaterial>> getOffsets() {
         return offsets;
     }
 
+    @JsonIgnore
     @Override
     public List<Cost> getCost() {
         return cost;
     }
 
+    @JsonIgnore
     @Override
     public List<Integer> getHeath() {
         return heath;
     }
 
+    @JsonIgnore
     @Override
     public int getCanCollideUnder() {
         return canCollideUnder;

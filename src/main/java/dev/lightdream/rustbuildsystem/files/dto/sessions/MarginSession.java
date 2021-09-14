@@ -52,7 +52,7 @@ public class MarginSession extends BuildSession {
                 return;
             }
 
-        this.root = this.targetBuild.getClosestMarginRoot(this.root, false, false);
+        this.root = this.targetBuild.getClosestMarginRoot(this.root, false, false, false);
 
         if (this.root == null) {
             return;

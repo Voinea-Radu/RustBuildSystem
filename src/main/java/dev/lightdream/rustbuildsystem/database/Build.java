@@ -58,9 +58,9 @@ public class Build {
     }
 
     @SuppressWarnings("IntegerDivisionInFloatingPointContext")
-    public List<PluginLocation> getMarinRoots(boolean fullRotations, boolean corners) {
-        if (isRoof()||isFoundation()) {
-        }else{
+    public List<PluginLocation> getMarinRoots(boolean fullRotations, boolean corners, boolean foundationPlace) {
+        if (isRoof() || isFoundation()) {
+        } else {
             return new ArrayList<>();
         }
 
@@ -70,6 +70,8 @@ public class Build {
         int maxZ = -1000000000;
         int maxY = -1000000000;
         List<PluginLocation> blockLocations = getBlockLocations();
+
+        /*
         for (PluginLocation location : blockLocations) {
             if (minX >= location.x) {
                 minX = (int) Math.floor(location.x);
@@ -87,38 +89,100 @@ public class Build {
                 maxY = (int) Math.floor(location.y);
             }
         }
+        */
+
         if (!fullRotations) {
-            return Arrays.asList(
+            if (!foundationPlace) {
+                return Arrays.asList(
+                    /*
                     new PluginLocation(blockLocations.get(0).world, minX, maxY, (minZ + maxZ) / 2),
                     new PluginLocation(blockLocations.get(0).world, maxX, maxY, (minZ + maxZ) / 2),
                     new PluginLocation(blockLocations.get(0).world, (minX + maxX) / 2, maxY, minZ, 90, 0),
                     new PluginLocation(blockLocations.get(0).world, (minX + maxX) / 2, maxY, maxZ, 90, 0)
-            );
+                    */
+                        this.rootLocation.newOffset(-2, 0, 0).newRotation(0, 0),
+                        this.rootLocation.newOffset(2, 0, 0).newRotation(0, 0),
+                        this.rootLocation.newOffset(0, 0, -2).newRotation(90, 0),
+                        this.rootLocation.newOffset(0, 0, 2).newRotation(90, 0)
+                );
+            } else {
+                return Arrays.asList(
+                        this.rootLocation.newOffset(-4, 0, 0).newRotation(0, 0),
+                        this.rootLocation.newOffset(4, 0, 0).newRotation(0, 0),
+                        this.rootLocation.newOffset(0, 0, -4).newRotation(90, 0),
+                        this.rootLocation.newOffset(0, 0, 4).newRotation(90, 0)
+                );
+            }
         }
         if (!corners) {
-            return Arrays.asList(
-                    new PluginLocation(blockLocations.get(0).world, maxX, maxY, (minZ + maxZ) / 2, 0, 0),
-                    new PluginLocation(blockLocations.get(0).world, (minX + maxX) / 2, maxY, maxZ, 90, 0),
-                    new PluginLocation(blockLocations.get(0).world, minX, maxY, (minZ + maxZ) / 2, 180, 0),
-                    new PluginLocation(blockLocations.get(0).world, (minX + maxX) / 2, maxY, minZ, 270, 0)
-            );
+            if (!foundationPlace) {
+
+                return Arrays.asList(
+                        /*
+                        new PluginLocation(blockLocations.get(0).world, maxX, maxY, (minZ + maxZ) / 2, 0, 0),
+                        new PluginLocation(blockLocations.get(0).world, (minX + maxX) / 2, maxY, maxZ, 90, 0),
+                        new PluginLocation(blockLocations.get(0).world, minX, maxY, (minZ + maxZ) / 2, 180, 0),
+                        new PluginLocation(blockLocations.get(0).world, (minX + maxX) / 2, maxY, minZ, 270, 0)
+                        */
+                        this.rootLocation.newOffset(-2, 0, 0).newRotation(0, 0),
+                        this.rootLocation.newOffset(2, 0, 0).newRotation(90, 0),
+                        this.rootLocation.newOffset(0, 0, -2).newRotation(180, 0),
+                        this.rootLocation.newOffset(0, 0, 2).newRotation(270, 0)
+                );
+            } else {
+                return Arrays.asList(
+                        this.rootLocation.newOffset(-4, 0, 0).newRotation(0, 0),
+                        this.rootLocation.newOffset(4, 0, 0).newRotation(90, 0),
+                        this.rootLocation.newOffset(0, 0, -4).newRotation(180, 0),
+                        this.rootLocation.newOffset(0, 0, 4).newRotation(270, 0)
+                );
+            }
         }
-        return Arrays.asList(
+        if (foundationPlace) {
+
+            return Arrays.asList(
+                /*
                 new PluginLocation(blockLocations.get(0).world, maxX, maxY, (minZ + maxZ) / 2, 0, 0),
                 new PluginLocation(blockLocations.get(0).world, maxX, maxY, maxZ, 45, 0),
                 new PluginLocation(blockLocations.get(0).world, (minX + maxX) / 2, maxY, maxZ, 90, 0),
                 new PluginLocation(blockLocations.get(0).world, minX, maxY, maxZ, 135, 0),
+
                 new PluginLocation(blockLocations.get(0).world, minX, maxY, (minZ + maxZ) / 2, 180, 0),
                 new PluginLocation(blockLocations.get(0).world, minX, maxY, minZ, 225, 0),
                 new PluginLocation(blockLocations.get(0).world, (minX + maxX) / 2, maxY, minZ, 270, 0),
                 new PluginLocation(blockLocations.get(0).world, maxX, maxY, minZ, 315, 0)
-        );
+                */
+                    this.rootLocation.newOffset(2, 0, 0).newRotation(0, 0),
+                    this.rootLocation.newOffset(2, 0, 2).newRotation(45, 0),
+                    this.rootLocation.newOffset(0, 0, 2).newRotation(90, 0),
+                    this.rootLocation.newOffset(-2, 0, 2).newRotation(135, 0),
+
+                    this.rootLocation.newOffset(-2, 0, 0).newRotation(180, 0),
+                    this.rootLocation.newOffset(-2, 0, -2).newRotation(225, 0),
+                    this.rootLocation.newOffset(0, 0, -2).newRotation(270, 0),
+                    this.rootLocation.newOffset(2, 0, -2).newRotation(315, 0)
+
+            );
+        } else {
+            return Arrays.asList(
+                    this.rootLocation.newOffset(4, 0, 0).newRotation(0, 0),
+                    this.rootLocation.newOffset(4, 0, 4).newRotation(45, 0),
+                    this.rootLocation.newOffset(0, 0, 4).newRotation(90, 0),
+                    this.rootLocation.newOffset(-4, 0, 4).newRotation(135, 0),
+
+                    this.rootLocation.newOffset(-4, 0, 0).newRotation(180, 0),
+                    this.rootLocation.newOffset(-4, 0, -4).newRotation(225, 0),
+                    this.rootLocation.newOffset(0, 0, -4).newRotation(270, 0),
+                    this.rootLocation.newOffset(4, 0, -4).newRotation(315, 0)
+            );
+        }
+
     }
 
-    public PluginLocation getClosestMarginRoot(PluginLocation targetLocation, boolean fullRotate, boolean corners) {
+    public PluginLocation getClosestMarginRoot(PluginLocation targetLocation, boolean fullRotate, boolean corners, boolean newFoundation) {
         PluginLocation location = null;
         double minDistance = 1000000000;
-        for (PluginLocation marginRoot : this.getMarinRoots(fullRotate, corners)) {
+        for (PluginLocation marginRoot : this.getMarinRoots(fullRotate, corners, newFoundation)) {
             double distance = targetLocation.toLocation().distance(marginRoot.toLocation());
             if (minDistance > distance) {
                 minDistance = distance;
@@ -160,8 +224,7 @@ public class Build {
     }
 
     public void destroy() {
-        System.out.println("Destroying id = " + this.id);
-        if (isFoundation()||isRoof()) {
+        if (isFoundation() || isRoof()) {
             Main.instance.databaseManager.getBuilds(this.id).forEach(Build::destroy);
         }
 
@@ -222,7 +285,6 @@ public class Build {
     }
 
     public void rebuild(List<Build> rebuilt) {
-        System.out.println("Rebuilding id = " + this.id);
         List<Build> builds;
         if (isFoundation() || isRoof()) {
             builds = Main.instance.databaseManager.getBuilds(this.id);

@@ -57,23 +57,19 @@ public abstract class BuildSession {
         this.clearPlaceholders();
 
         if (this.root == null) {
-            System.out.println(1);
             return;
         }
         if (!this.schematic.getCost().get(0).has(user.getPlayer())) {
-            System.out.println(2);
             return;
         }
         this.schematic.getCost().get(0).take(user.getPlayer());
         if (!canBuild()) {
-            System.out.println(3);
             return;
         }
         showPreview(true);
 
         if (!this.schematic.isFoundation()) {
             if (targetBuild == null) {
-                System.out.println(4);
                 return;
             }
         }

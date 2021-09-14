@@ -90,38 +90,10 @@ public class FoundationSession extends BuildSession {
                 }
             }
         } else {
-            if (this.targetBuild.isFoundation() || this.targetBuild.isRoof()) {
-                //System.out.println(this.root + " -> " + );
+            if (this.targetBuild.isFoundation() /*|| this.targetBuild.isRoof()*/) {
                 PluginLocation p = this.root;
-                this.root = this.targetBuild.getClosestMarginRoot(this.root, true, false);
-                System.out.println(p + " -> " + this.root + " (" + this.targetBuild + ")");
-                switch ((int) this.root.rotationX) {
-                    case 0:
-                        this.root.offset(2, 0, 0);
-                        break;
-                    case 45:
-                        this.root.offset(2, 0, 2);
-                        break;
-                    case 90:
-                        this.root.offset(0, 0, 2);
-                        break;
-                    case 135:
-                        this.root.offset(-2, 0, 2);
-                        break;
-                    case 180:
-                        this.root.offset(-2, 0, 0);
-                        break;
-                    case 225:
-                        this.root.offset(-2, 0, -2);
-                        break;
-                    case 270:
-                        this.root.offset(0, 0, -2);
-                        break;
-                    case 315:
-                        this.root.offset(2, 0, -2);
-                        break;
-                }
-                    this.root.unOffset(schematic.getRootOffsets());
+                this.root = this.targetBuild.getClosestMarginRoot(this.root, true, false, true);
+                this.root.unOffset(schematic.getRootOffsets());
             }
         }
         if (this.root == null) {

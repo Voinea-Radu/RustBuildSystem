@@ -25,13 +25,11 @@ public class PlaceableSession extends BuildSession {
         this.targetBuild = null;
 
         if(target == null){
-            System.out.println(1);
             return;
         }
 
         if (this.root != null) {
             if (this.root.equals(new PluginLocation(target.getLocation()))) {
-                System.out.println(2);
                 return;
             }
         }
@@ -41,27 +39,23 @@ public class PlaceableSession extends BuildSession {
         this.placeholders = new HashMap<>();
 
         if(this.root == null){
-            System.out.println(3);
             return;
         }
 
         this.targetBuild = Main.instance.databaseManager.getBuild(this.root);
 
         if (targetBuild == null) {
-            System.out.println(4);
             return;
         }
 
         Build foundation = targetBuild.getFoundation();
 
         if (foundation == null) {
-            System.out.println(5);
             return;
         }
 
         if (this.schematic.isRoof()) {
             if (Main.instance.databaseManager.getBuilds(foundation.id, "wall").size() == 0) {
-                System.out.println(6);
                 return;
             }
         }
@@ -69,19 +63,16 @@ public class PlaceableSession extends BuildSession {
         this.root = targetBuild.getFoundation().getRootLocation();
 
         if (this.root == null) {
-            System.out.println(7);
             return;
         }
 
         this.root = this.root.newOffset(this.schematic.getRootOffsets());
 
         if (Main.instance.databaseManager.getBuild(this.root) != null) {
-            System.out.println(8);
             return;
         }
 
         boolean canBuild = canBuild();
-        System.out.println(canBuild);
         showPreview(canBuild);
         if (!canBuild) {
             this.root = null;
