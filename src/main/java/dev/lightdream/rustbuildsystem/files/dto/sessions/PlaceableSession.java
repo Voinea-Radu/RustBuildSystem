@@ -93,7 +93,7 @@ public class PlaceableSession extends BuildSession {
 
             Build b = Main.instance.databaseManager.getBuild(location);
             if (b != null) {
-                if(b.isRoof()){
+                if(b.isWall()){
                     continue;
                 }
                 if (this.schematic.getType().equals(b.type)) {

@@ -54,7 +54,6 @@ public class FoundationSession extends BuildSession {
 
         this.targetBuild = Main.instance.databaseManager.getBuild(this.root);
 
-
         if (target.getType().equals(Material.AIR)) {
             if (this.root.newOffset(new Position(0, -2, 0)).getBlock().getType().equals(Material.AIR)) {
                 this.root = null;
@@ -93,10 +92,12 @@ public class FoundationSession extends BuildSession {
         } else {
             if (this.targetBuild.isFoundation() /*|| this.targetBuild.isRoof()*/) {
                 this.root = this.targetBuild.getClosestMarginRoot(this.root, true, false, true);
-                if(this.root==null){
+                if (this.root == null) {
                     return;
                 }
                 this.root.unOffset(schematic.getRootOffset());
+            }else{
+                this.root = null;
             }
         }
         if (this.root == null) {

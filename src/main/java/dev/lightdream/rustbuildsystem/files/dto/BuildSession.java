@@ -106,7 +106,7 @@ public abstract class BuildSession {
             }
 
             user.getPlayer().sendBlockChange(location.toLocation(), canBuild ? XMaterial.LIME_STAINED_GLASS.parseMaterial() : XMaterial.RED_STAINED_GLASS.parseMaterial(),
-                    canBuild ? XMaterial.LIME_STAINED_GLASS.getData() : XMaterial.LIME_STAINED_GLASS.getData());
+                    canBuild ? XMaterial.LIME_STAINED_GLASS.getData() : XMaterial.RED_STAINED_GLASS.getData());
         });
         toRemove.forEach(l->placeholders.remove(l));
     }

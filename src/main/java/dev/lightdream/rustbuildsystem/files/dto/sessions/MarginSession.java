@@ -52,6 +52,11 @@ public class MarginSession extends BuildSession {
                 return;
             }
 
+            if(!targetBuild.isFoundation()){
+                this.root=null;
+                return;
+            }
+
         this.root = this.targetBuild.getClosestMarginRoot(this.root, false, false, false);
 
         if (this.root == null) {
