@@ -64,6 +64,7 @@ public class FoundationSession extends BuildSession {
 
         if (this.root.y >= Main.instance.config.maxY ||
                 this.root.toLocation().distance(user.getPlayer().getLocation()) <= Main.instance.config.minBuildOnGroundDistance) {
+            this.root =null;
             return;
         }
 
@@ -91,16 +92,18 @@ public class FoundationSession extends BuildSession {
             }
         } else {
             if (this.targetBuild.isFoundation() /*|| this.targetBuild.isRoof()*/) {
-                PluginLocation p = this.root;
                 this.root = this.targetBuild.getClosestMarginRoot(this.root, true, false, true);
-                this.root.unOffset(schematic.getRootOffsets());
+                if(this.root==null){
+                    return;
+                }
+                this.root.unOffset(schematic.getRootOffset());
             }
         }
         if (this.root == null) {
             return;
         }
 
-        this.root = this.root.newOffset(this.schematic.getRootOffsets());
+        this.root = this.root.newOffset(this.schematic.getRootOffset());
 
         if (Main.instance.databaseManager.getBuild(this.root) != null) {
             return;

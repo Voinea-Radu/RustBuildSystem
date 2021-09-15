@@ -66,7 +66,7 @@ public class PlaceableSession extends BuildSession {
             return;
         }
 
-        this.root = this.root.newOffset(this.schematic.getRootOffsets());
+        this.root = this.root.newOffset(this.schematic.getRootOffset());
 
         if (Main.instance.databaseManager.getBuild(this.root) != null) {
             return;
@@ -93,6 +93,9 @@ public class PlaceableSession extends BuildSession {
 
             Build b = Main.instance.databaseManager.getBuild(location);
             if (b != null) {
+                if(b.isRoof()){
+                    continue;
+                }
                 if (this.schematic.getType().equals(b.type)) {
                     continue;
                 }

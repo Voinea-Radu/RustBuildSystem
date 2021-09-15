@@ -120,7 +120,7 @@ public class Config extends dev.lightdream.api.files.config.Config {
         ));
         put("roof", new RoofSchematic(
                 "roof",
-                new Position(0, 5, 0),
+                new Position(0, 4, 0),
                 new HashMap<Position, List<XMaterial>>() {{
                     put(new Position(-2, 0, -2), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
                     put(new Position(-2, 0, -1), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));

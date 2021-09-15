@@ -3,11 +3,12 @@ package dev.lightdream.rustbuildsystem.files.dto.schematics;
 import dev.lightdream.api.databases.User;
 import dev.lightdream.api.files.dto.Position;
 import dev.lightdream.api.files.dto.XMaterial;
-import dev.lightdream.libs.fasterxml.annotation.JsonIgnore;
+import dev.lightdream.libs.fasterxml.databind.annotation.JsonSerialize;
 import dev.lightdream.rustbuildsystem.files.dto.BuildSchematic;
 import dev.lightdream.rustbuildsystem.files.dto.BuildSession;
 import dev.lightdream.rustbuildsystem.files.dto.Cost;
 import dev.lightdream.rustbuildsystem.files.dto.sessions.FoundationSession;
+import dev.lightdream.rustbuildsystem.managers.serealizer.BuildSchematicSerializer;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +18,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonSerialize(using = BuildSchematicSerializer.class)
 public class FoundationSchematic implements BuildSchematic {
 
     private String type;
@@ -27,70 +29,90 @@ public class FoundationSchematic implements BuildSchematic {
     private int canCollideUnder;
 
     @Override
-    @JsonIgnore
-
+    
     public boolean isRoof() {
         return false;
     }
 
-    @JsonIgnore
+
+    
     @Override
     public boolean isFoundation() {
         return true;
     }
 
-    @JsonIgnore
+    
     @Override
+    
     public boolean isMargin() {
         return false;
     }
 
-    @JsonIgnore
+    
     @Override
+    
     public boolean isPlaceable() {
         return false;
     }
 
-    @JsonIgnore
+    
     @Override
+    
     public BuildSession getBuildSession(User user) {
         return new FoundationSession(user, this);
     }
 
-    @JsonIgnore
+    
     @Override
+    
     public String getType() {
         return type;
     }
 
-    @JsonIgnore
+    
     @Override
-    public Position getRootOffsets() {
+    
+    public Position getRootOffset() {
         return rootOffset;
     }
 
-    @JsonIgnore
+    
     @Override
+    
     public HashMap<Position, List<XMaterial>> getOffsets() {
         return offsets;
     }
 
-    @JsonIgnore
+    
     @Override
+    
     public List<Cost> getCost() {
         return cost;
     }
 
-    @JsonIgnore
+    
     @Override
+    
     public List<Integer> getHeath() {
         return heath;
     }
 
-    @JsonIgnore
+    
     @Override
+    
     public int getCanCollideUnder() {
         return canCollideUnder;
     }
 
+    @Override
+    public String toString() {
+        return "FoundationSchematic{" +
+                "type='" + type + '\'' +
+                ", rootOffset=" + rootOffset +
+                ", offsets=" + offsets +
+                ", cost=" + cost +
+                ", heath=" + heath +
+                ", canCollideUnder=" + canCollideUnder +
+                '}';
+    }
 }

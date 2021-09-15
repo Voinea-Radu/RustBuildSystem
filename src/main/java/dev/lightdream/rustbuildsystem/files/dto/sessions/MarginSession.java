@@ -57,7 +57,7 @@ public class MarginSession extends BuildSession {
         if (this.root == null) {
             return;
         }
-        this.root = this.root.newOffset(this.schematic.getRootOffsets());
+        this.root = this.root.newOffset(this.schematic.getRootOffset());
         this.rotate = this.root.rotationX == 90;
 
         boolean canBuild = canBuild();
@@ -82,7 +82,10 @@ public class MarginSession extends BuildSession {
 
             Build b = Main.instance.databaseManager.getBuild(location);
             if (b != null) {
-                if (this.schematic.getType().equals(b.type)) {
+                if(b.isRoof()){
+                    continue;
+                }
+                if(b.isWall()){
                     continue;
                 }
             }
