@@ -3,6 +3,8 @@ package dev.lightdream.rustbuildsystem.files.dto.schematics;
 import dev.lightdream.api.databases.User;
 import dev.lightdream.api.files.dto.Position;
 import dev.lightdream.api.files.dto.XMaterial;
+import dev.lightdream.libs.fasterxml.annotation.JsonTypeInfo;
+import dev.lightdream.libs.fasterxml.annotation.JsonTypeName;
 import dev.lightdream.libs.fasterxml.databind.annotation.JsonSerialize;
 import dev.lightdream.rustbuildsystem.files.dto.BuildSchematic;
 import dev.lightdream.rustbuildsystem.files.dto.BuildSession;
@@ -19,6 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonSerialize(using = BuildSchematicSerializer.class)
+//@JsonTypeName("FoundationSchematic")
 public class FoundationSchematic implements BuildSchematic {
 
     private String type;

@@ -57,8 +57,9 @@ public class Build {
         return type.equals("foundation");
     }
 
-    @SuppressWarnings("IntegerDivisionInFloatingPointContext")
     public List<PluginLocation> getMarinRoots(boolean fullRotations, boolean corners, boolean foundationPlace) {
+                /*
+
         if (isRoof() || isFoundation()) {
         } else {
             return new ArrayList<>();
@@ -71,7 +72,6 @@ public class Build {
         int maxY = -1000000000;
         List<PluginLocation> blockLocations = getBlockLocations();
 
-        /*
         for (PluginLocation location : blockLocations) {
             if (minX >= location.x) {
                 minX = (int) Math.floor(location.x);

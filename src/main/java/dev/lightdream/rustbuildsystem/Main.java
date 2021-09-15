@@ -33,7 +33,7 @@ public final class Main extends LightDreamPlugin {
 
     @Override
     public void onEnable() {
-        init("RustBuildSystem", "rbs", "1.20");
+        init("RustBuildSystem", "rbs", "1.21");
         instance = this;
         eventManager = new EventManager(this);
         databaseManager = new DatabaseManager(this);
@@ -48,6 +48,8 @@ public final class Main extends LightDreamPlugin {
     public void loadConfigs() {
         sqlConfig = fileManager.load(SQLConfig.class);
         config = fileManager.load(Config.class);
+        System.out.println(config.builds.get("wall").getBuildSession(null));
+        System.out.println(config.builds.get("wall"));
         baseConfig = config;
         lang = fileManager.load(Lang.class, fileManager.getFile(baseConfig.baseLang));
         baseLang = lang;
