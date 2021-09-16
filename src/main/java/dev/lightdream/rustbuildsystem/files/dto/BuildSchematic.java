@@ -25,29 +25,21 @@ public interface BuildSchematic {
 
     boolean isRoof();
 
-
     boolean isFoundation();
-
 
     boolean isMargin();
 
     boolean isPlaceable();
 
-
     BuildSession getBuildSession(User user);
-
 
     String getType();
 
-
     Position getRootOffset();
 
-
-    HashMap<Position, List<XMaterial>> getOffsets();
-
+    HashMap<ConfigurablePosition, List<XMaterial>> getOffsets();
 
     List<Cost> getCost();
-
 
     List<Integer> getHeath();
 

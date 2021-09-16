@@ -8,6 +8,8 @@ import dev.lightdream.rustbuildsystem.Utils;
 import dev.lightdream.rustbuildsystem.database.Build;
 import dev.lightdream.rustbuildsystem.files.dto.BuildSchematic;
 import dev.lightdream.rustbuildsystem.files.dto.BuildSession;
+import dev.lightdream.rustbuildsystem.files.dto.ConfigurablePluginLocation;
+import dev.lightdream.rustbuildsystem.files.dto.ConfigurablePosition;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
@@ -121,9 +123,9 @@ public class FoundationSession extends BuildSession {
     public boolean canBuild() {
         boolean canBuild = true;
 
-        for (Position position : this.schematic.getOffsets().keySet()) {
+        for (ConfigurablePosition position : this.schematic.getOffsets().keySet()) {
             PluginLocation location = this.root.newOffset(position);
-            placeholders.put(location, schematic.getOffsets().get(position).get(0));
+            placeholders.put(new ConfigurablePluginLocation(location, position.breakable), schematic.getOffsets().get(position).get(0));
 
             if (!canBuild) {
                 continue;

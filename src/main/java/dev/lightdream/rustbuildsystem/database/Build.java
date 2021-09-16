@@ -6,6 +6,8 @@ import dev.lightdream.libs.j256.field.DataType;
 import dev.lightdream.libs.j256.field.DatabaseField;
 import dev.lightdream.libs.j256.table.DatabaseTable;
 import dev.lightdream.rustbuildsystem.Main;
+import dev.lightdream.rustbuildsystem.files.dto.ConfigurablePluginLocation;
+import dev.lightdream.rustbuildsystem.files.dto.ConfigurablePosition;
 import dev.lightdream.rustbuildsystem.files.dto.Cost;
 import lombok.NoArgsConstructor;
 import org.bukkit.Material;
@@ -28,7 +30,7 @@ public class Build {
     @DatabaseField(columnName = "root_location", dataType = DataType.SERIALIZABLE)
     public PluginLocation rootLocation;
     @DatabaseField(columnName = "block_locations", dataType = DataType.SERIALIZABLE)
-    public HashSet<PluginLocation> blockLocations;
+    public HashSet<ConfigurablePluginLocation> blockLocations;
     @DatabaseField(columnName = "level")
     public int level;
     @DatabaseField(columnName = "health")
@@ -38,7 +40,7 @@ public class Build {
 
     //private List<PluginLocation> blockLocationsList;
 
-    public Build(int ownerId, String type, int foundationID, PluginLocation rootLocation, List<PluginLocation> blockLocations, List<Build> colliding) {
+    public Build(int ownerId, String type, int foundationID, PluginLocation rootLocation, List<ConfigurablePluginLocation> blockLocations, List<Build> colliding) {
         this.ownerId = ownerId;
         this.type = type;
         this.foundationID = foundationID;
@@ -192,7 +194,7 @@ public class Build {
         return location;
     }
 
-    public List<PluginLocation> getBlockLocations() {
+    public List<ConfigurablePluginLocation> getBlockLocations() {
         //if (blockLocationsList == null) {
         //    return Arrays.asList(new Gson().fromJson(blockLocations, PluginLocation[].class));
         //}
@@ -308,7 +310,7 @@ public class Build {
     }
 
     public void build() {
-        for (Position p : Main.instance.config.builds.get(this.type).getOffsets().keySet()) {
+        for (ConfigurablePosition p : Main.instance.config.builds.get(this.type).getOffsets().keySet()) {
             Position offset = p.clone();
             if (this.rootLocation.rotationX == 90) {
                 offset.flip();

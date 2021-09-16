@@ -4,12 +4,16 @@ import dev.lightdream.api.API;
 import dev.lightdream.api.LightDreamPlugin;
 import dev.lightdream.api.databases.User;
 import dev.lightdream.api.files.config.SQLConfig;
+import dev.lightdream.api.files.dto.Position;
+import dev.lightdream.api.managers.KeyDeserializerManager;
 import dev.lightdream.api.managers.MessageManager;
+import dev.lightdream.libs.fasterxml.databind.module.SimpleModule;
 import dev.lightdream.rustbuildsystem.commands.BuildCommand;
 import dev.lightdream.rustbuildsystem.commands.UpgradeCommand;
 import dev.lightdream.rustbuildsystem.database.Build;
 import dev.lightdream.rustbuildsystem.files.config.Config;
 import dev.lightdream.rustbuildsystem.files.config.Lang;
+import dev.lightdream.rustbuildsystem.files.dto.ConfigurablePosition;
 import dev.lightdream.rustbuildsystem.managers.DatabaseManager;
 import dev.lightdream.rustbuildsystem.managers.EventManager;
 import org.bukkit.Material;
@@ -34,11 +38,10 @@ public final class Main extends LightDreamPlugin {
 
     @Override
     public void onEnable() {
-        init("RustBuildSystem", "rbs", "1.24");
+        init("RustBuildSystem", "rbs", "1.25");
         instance = this;
         eventManager = new EventManager(this);
         databaseManager = new DatabaseManager(this);
-        System.out.println(databaseManager.getAll(Build.class));
     }
 
     @Override
@@ -50,8 +53,6 @@ public final class Main extends LightDreamPlugin {
     public void loadConfigs() {
         sqlConfig = fileManager.load(SQLConfig.class);
         config = fileManager.load(Config.class);
-        System.out.println(config.builds.get("wall").getBuildSession(null));
-        System.out.println(config.builds.get("wall"));
         baseConfig = config;
         lang = fileManager.load(Lang.class, fileManager.getFile(baseConfig.baseLang));
         baseLang = lang;
@@ -61,6 +62,13 @@ public final class Main extends LightDreamPlugin {
     public void disable() {
         eventManager.buildMode.forEach((user, build) -> build.placeholders.forEach((location, material) -> location.setBlock(Material.AIR)));
         databaseManager.save();
+    }
+
+    @Override
+    public void registerFileManagerModules() {
+        fileManager.registerModule(new SimpleModule().addKeyDeserializer(ConfigurablePosition.class,  new KeyDeserializerManager(new HashMap<String, Class<?>>() {{
+            put("ConfigurablePosition", ConfigurablePosition.class);
+        }})));
     }
 
     @Override

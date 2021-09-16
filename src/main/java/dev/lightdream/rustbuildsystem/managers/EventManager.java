@@ -79,10 +79,14 @@ public class EventManager implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         User user = plugin.databaseManager.getUser(event.getPlayer());
-        Build build = plugin.databaseManager.getBuild(new PluginLocation(event.getBlock().getLocation()));
-
+        Build build = plugin.databaseManager.getBuild(new PluginLocation(event.getBlock().getLocation()), true);
 
         if (build == null) {
+            Build build1 = plugin.databaseManager.getBuild(new PluginLocation(event.getBlock().getLocation()));
+            if (build1 == null) {
+                return;
+            }
+            event.setCancelled(true);
             return;
         }
 

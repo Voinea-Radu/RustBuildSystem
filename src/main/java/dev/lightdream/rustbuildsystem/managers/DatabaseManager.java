@@ -4,6 +4,7 @@ import dev.lightdream.api.LightDreamPlugin;
 import dev.lightdream.api.databases.User;
 import dev.lightdream.api.files.dto.PluginLocation;
 import dev.lightdream.rustbuildsystem.database.Build;
+import dev.lightdream.rustbuildsystem.files.dto.ConfigurablePluginLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,10 +30,20 @@ public class DatabaseManager extends dev.lightdream.api.managers.DatabaseManager
         return getAll(Build.class).stream().filter(build -> build.foundationID == foundationID && build.type.equals(type)).collect(Collectors.toList());
     }
 
-    public @Nullable Build getBuild(PluginLocation location) {
-        Optional<Build> optionalBuild = getAll(Build.class).stream().filter(build -> build.getBlockLocations().contains(location)).findFirst();
+    public @Nullable Build getBuild(PluginLocation location, boolean breakable) {
+        Optional<Build> optionalBuild;
+        if (breakable) {
+            optionalBuild = getAll(Build.class).stream().filter(build -> build.getBlockLocations().contains(new ConfigurablePluginLocation(location, true))).findFirst();
+        } else {
+            optionalBuild = getAll(Build.class).stream().filter(build -> build.getBlockLocations().contains(new ConfigurablePluginLocation(location, true)) ||
+                    build.getBlockLocations().contains(new ConfigurablePluginLocation(location, false))).findFirst();
+        }
 
         return optionalBuild.orElse(null);
+    }
+
+    public @Nullable Build getBuild(PluginLocation location) {
+        return getBuild(location, false);
     }
 
     public @Nullable Build getBuild(int id) {

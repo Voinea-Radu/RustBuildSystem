@@ -20,7 +20,7 @@ public abstract class BuildSession {
 
     public User user;
     public BuildSchematic schematic;
-    public HashMap<PluginLocation, XMaterial> placeholders;
+    public HashMap<ConfigurablePluginLocation, XMaterial> placeholders;
     public PluginLocation root;
     public boolean rotate;
     public Build targetBuild;
@@ -71,6 +71,7 @@ public abstract class BuildSession {
         this.placeholders.forEach((location, material) -> {
             location.setBlock(material.parseMaterial());
         });
+
         Build build = new Build(
                 this.user.id,
                 this.schematic.getType(),
