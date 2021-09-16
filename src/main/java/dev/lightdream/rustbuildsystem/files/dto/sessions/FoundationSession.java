@@ -63,7 +63,7 @@ public class FoundationSession extends BuildSession {
 
         if (this.root.y >= Main.instance.config.maxY ||
                 this.root.toLocation().distance(user.getPlayer().getLocation()) <= Main.instance.config.minBuildOnGroundDistance) {
-            this.root =null;
+            this.root = null;
             return;
         }
 
@@ -96,7 +96,7 @@ public class FoundationSession extends BuildSession {
                     return;
                 }
                 this.root.unOffset(schematic.getRootOffset());
-            }else{
+            } else {
                 this.root = null;
             }
         }

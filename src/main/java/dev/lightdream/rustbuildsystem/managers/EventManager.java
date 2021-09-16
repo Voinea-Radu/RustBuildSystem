@@ -38,7 +38,7 @@ public class EventManager implements Listener {
             return;
         }
 
-        if(Main.instance.config.stepsForUpdate!=0){
+        if (Main.instance.config.stepsForUpdate != 0) {
             if (playerMap.containsKey(user)) {
                 Integer i = playerMap.get(user);
                 if (i < Main.instance.config.stepsForUpdate) {

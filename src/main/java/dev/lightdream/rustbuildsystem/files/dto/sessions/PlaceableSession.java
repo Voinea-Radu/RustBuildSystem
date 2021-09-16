@@ -24,7 +24,7 @@ public class PlaceableSession extends BuildSession {
         Block target = Utils.getTargetBlock(user.getPlayer(), 8, false, false);
         this.targetBuild = null;
 
-        if(target == null){
+        if (target == null) {
             return;
         }
 
@@ -38,7 +38,7 @@ public class PlaceableSession extends BuildSession {
         clearPlaceholders();
         this.placeholders = new HashMap<>();
 
-        if(this.root == null){
+        if (this.root == null) {
             return;
         }
 
@@ -93,7 +93,7 @@ public class PlaceableSession extends BuildSession {
 
             Build b = Main.instance.databaseManager.getBuild(location);
             if (b != null) {
-                if(b.isWall()){
+                if (b.isWall()) {
                     continue;
                 }
                 if (this.schematic.getType().equals(b.type)) {

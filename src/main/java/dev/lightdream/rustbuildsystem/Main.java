@@ -7,6 +7,7 @@ import dev.lightdream.api.files.config.SQLConfig;
 import dev.lightdream.api.managers.MessageManager;
 import dev.lightdream.rustbuildsystem.commands.BuildCommand;
 import dev.lightdream.rustbuildsystem.commands.UpgradeCommand;
+import dev.lightdream.rustbuildsystem.database.Build;
 import dev.lightdream.rustbuildsystem.files.config.Config;
 import dev.lightdream.rustbuildsystem.files.config.Lang;
 import dev.lightdream.rustbuildsystem.managers.DatabaseManager;
@@ -33,10 +34,11 @@ public final class Main extends LightDreamPlugin {
 
     @Override
     public void onEnable() {
-        init("RustBuildSystem", "rbs", "1.23");
+        init("RustBuildSystem", "rbs", "1.24");
         instance = this;
         eventManager = new EventManager(this);
         databaseManager = new DatabaseManager(this);
+        System.out.println(databaseManager.getAll(Build.class));
     }
 
     @Override

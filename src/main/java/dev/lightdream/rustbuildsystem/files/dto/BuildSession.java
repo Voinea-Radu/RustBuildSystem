@@ -79,8 +79,8 @@ public abstract class BuildSession {
                 new ArrayList<>(this.placeholders.keySet()),
                 this.colliding);
 
+        //Main.instance.databaseManager.save(build, false);
         Main.instance.databaseManager.save(build);
-        Main.instance.databaseManager.save(build, false);
 
 
         for (Build foundation : this.colliding) {
@@ -91,21 +91,23 @@ public abstract class BuildSession {
     public abstract boolean canBuild();
 
     @SuppressWarnings("ConstantConditions")
-    public void showPreview(boolean canBuild){
-        List<PluginLocation> toRemove = new ArrayList<>();
+    public void showPreview(boolean canBuild) {
+        //List<PluginLocation> toRemove = new ArrayList<>();
         placeholders.forEach((location, material) -> {
             if (!location.getBlock().getType().equals(Material.AIR)) {
                 Build b = Main.instance.getDatabaseManager().getBuild(location);
-                if(!colliding.contains(b)){
-                    colliding.add(b);
+                if (b != null) {
+                    if (!colliding.contains(b)) {
+                        colliding.add(b);
+                    }
                 }
-                toRemove.add(location);
+                //toRemove.add(location);
                 return;
             }
 
             user.getPlayer().sendBlockChange(location.toLocation(), canBuild ? XMaterial.LIME_STAINED_GLASS.parseMaterial() : XMaterial.RED_STAINED_GLASS.parseMaterial(),
                     canBuild ? XMaterial.LIME_STAINED_GLASS.getData() : XMaterial.RED_STAINED_GLASS.getData());
         });
-        toRemove.forEach(l->placeholders.remove(l));
+        //toRemove.forEach(l->placeholders.remove(l));
     }
 }

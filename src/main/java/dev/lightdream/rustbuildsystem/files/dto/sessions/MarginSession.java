@@ -24,7 +24,7 @@ public class MarginSession extends BuildSession {
         Block target = Utils.getTargetBlock(user.getPlayer(), 8, false, false);
         this.targetBuild = null;
 
-        if(target==null){
+        if (target == null) {
             return;
         }
 
@@ -34,28 +34,24 @@ public class MarginSession extends BuildSession {
             }
         }
 
-        if(target==null){
+        this.root = new PluginLocation(target.getLocation());
+        clearPlaceholders();
+        this.placeholders = new HashMap<>();
+
+        if (this.root == null) {
             return;
         }
 
-        this.root = new PluginLocation(target.getLocation());
-            clearPlaceholders();
-            this.placeholders = new HashMap<>();
-
-            if(this.root == null){
-                return;
-            }
-
         this.targetBuild = Main.instance.databaseManager.getBuild(this.root);
 
-            if(targetBuild==null){
-                return;
-            }
+        if (targetBuild == null) {
+            return;
+        }
 
-            if(!targetBuild.isFoundation()){
-                this.root=null;
-                return;
-            }
+        if (!targetBuild.isFoundation() && !targetBuild.isRoof()) {
+            this.root = null;
+            return;
+        }
 
         this.root = this.targetBuild.getClosestMarginRoot(this.root, false, false, false);
 
@@ -87,10 +83,10 @@ public class MarginSession extends BuildSession {
 
             Build b = Main.instance.databaseManager.getBuild(location);
             if (b != null) {
-                if(b.isRoof()){
+                if (b.isRoof()) {
                     continue;
                 }
-                if(b.isWall()){
+                if (b.isWall()) {
                     continue;
                 }
             }

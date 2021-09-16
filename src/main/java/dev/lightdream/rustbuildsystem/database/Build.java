@@ -38,7 +38,7 @@ public class Build {
 
     //private List<PluginLocation> blockLocationsList;
 
-    public Build(int ownerId, String type, int foundationID, PluginLocation rootLocation, List<PluginLocation> blockLocations, List<Build> collidingFoundations) {
+    public Build(int ownerId, String type, int foundationID, PluginLocation rootLocation, List<PluginLocation> blockLocations, List<Build> colliding) {
         this.ownerId = ownerId;
         this.type = type;
         this.foundationID = foundationID;
@@ -48,9 +48,9 @@ public class Build {
         this.blockLocations = new HashSet<>(blockLocations);
         this.level = 0;
         this.health = Main.instance.config.builds.get(type).getHeath().get(level);
-        List<Integer> collidingFoundationsIDs = new ArrayList<>();
-        collidingFoundations.forEach(build -> collidingFoundationsIDs.add(build.id));
-        this.colliding = new HashSet<>(collidingFoundationsIDs);
+        List<Integer> collidingIDs = new ArrayList<>();
+        colliding.forEach(build -> collidingIDs.add(build.id));
+        this.colliding = new HashSet<>(collidingIDs);
     }
 
     public boolean isFoundation() {
@@ -230,7 +230,9 @@ public class Build {
 
         this.getBlockLocations().forEach(location -> location.setBlock(Material.AIR));
 
-        getColliding().forEach(build -> build.rebuild(new ArrayList<>()));
+        List<Build> arrayList = new ArrayList<>();
+        arrayList.add(this);
+        getColliding().forEach(build -> build.rebuild(arrayList));
 
         Main.instance.databaseManager.delete(this);
 
@@ -306,9 +308,12 @@ public class Build {
     }
 
     public void build() {
-        for (Position offset : Main.instance.config.builds.get(this.type).getOffsets().keySet()) {
-            PluginLocation location = getRootLocation().newOffset(offset);
-            location.setBlock(Main.instance.config.builds.get(this.type).getOffsets().get(offset).get(this.level).parseMaterial());
+        for (Position p : Main.instance.config.builds.get(this.type).getOffsets().keySet()) {
+            Position offset = p.clone();
+            if (this.rootLocation.rotationX == 90) {
+                offset.flip();
+            }
+            getRootLocation().newOffset(offset).setBlock(Main.instance.config.builds.get(this.type).getOffsets().get(p).get(this.level).parseMaterial());
         }
     }
 

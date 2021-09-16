@@ -1,13 +1,10 @@
 package dev.lightdream.rustbuildsystem.managers.serealizer;
 
 import dev.lightdream.libs.fasterxml.core.JsonGenerator;
-import dev.lightdream.libs.fasterxml.databind.JavaType;
 import dev.lightdream.libs.fasterxml.databind.JsonSerializer;
 import dev.lightdream.libs.fasterxml.databind.SerializerProvider;
 import dev.lightdream.libs.fasterxml.databind.jsontype.TypeSerializer;
-import dev.lightdream.libs.fasterxml.databind.ser.std.StdSerializer;
 import dev.lightdream.rustbuildsystem.files.dto.BuildSchematic;
-import dev.lightdream.rustbuildsystem.files.dto.schematics.FoundationSchematic;
 
 import java.io.IOException;
 
