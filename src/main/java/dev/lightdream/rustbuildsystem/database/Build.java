@@ -33,8 +33,8 @@ public class Build {
     public int level;
     @DatabaseField(columnName = "health")
     public Integer health;
-    @DatabaseField(columnName = "colliding_foundations", dataType = DataType.SERIALIZABLE)
-    public HashSet<Integer> collidingFoundations;
+    @DatabaseField(columnName = "colliding", dataType = DataType.SERIALIZABLE)
+    public HashSet<Integer> colliding;
 
     //private List<PluginLocation> blockLocationsList;
 
@@ -50,7 +50,7 @@ public class Build {
         this.health = Main.instance.config.builds.get(type).getHeath().get(level);
         List<Integer> collidingFoundationsIDs = new ArrayList<>();
         collidingFoundations.forEach(build -> collidingFoundationsIDs.add(build.id));
-        this.collidingFoundations = new HashSet<>(collidingFoundationsIDs);
+        this.colliding = new HashSet<>(collidingFoundationsIDs);
     }
 
     public boolean isFoundation() {
@@ -228,9 +228,9 @@ public class Build {
             Main.instance.databaseManager.getBuilds(this.id).forEach(Build::destroy);
         }
 
-        getCollidingFoundations().forEach(build -> build.rebuild(new ArrayList<>()));
-
         this.getBlockLocations().forEach(location -> location.setBlock(Material.AIR));
+
+        getColliding().forEach(build -> build.rebuild(new ArrayList<>()));
 
         Main.instance.databaseManager.delete(this);
 
@@ -325,9 +325,9 @@ public class Build {
         return Objects.hash(id);
     }
 
-    public List<Build> getCollidingFoundations() {
+    public List<Build> getColliding() {
         List<Build> collidingFoundations = new ArrayList<>();
-        for (Integer id : new ArrayList<>(this.collidingFoundations)) {
+        for (Integer id : new ArrayList<>(this.colliding)) {
             Build build = Main.instance.databaseManager.getBuild(id);
             if (build == null) {
                 continue;
@@ -341,7 +341,7 @@ public class Build {
         if (build == null) {
             return;
         }
-        collidingFoundations.add(build.id);
+        colliding.add(build.id);
         Main.instance.databaseManager.save(this);
     }
 }

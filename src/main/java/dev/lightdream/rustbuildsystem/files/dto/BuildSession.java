@@ -2,22 +2,16 @@ package dev.lightdream.rustbuildsystem.files.dto;
 
 import dev.lightdream.api.databases.User;
 import dev.lightdream.api.files.dto.PluginLocation;
-import dev.lightdream.api.files.dto.Position;
 import dev.lightdream.api.files.dto.XMaterial;
 import dev.lightdream.rustbuildsystem.Main;
-import dev.lightdream.rustbuildsystem.Utils;
 import dev.lightdream.rustbuildsystem.database.Build;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang.NotImplementedException;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @SuppressWarnings({"deprecation"})
 @AllArgsConstructor
@@ -30,7 +24,7 @@ public abstract class BuildSession {
     public PluginLocation root;
     public boolean rotate;
     public Build targetBuild;
-    public List<Build> collidingFoundations;
+    public List<Build> colliding;
     public PluginLocation lastPreviewLocation;
 
     public BuildSession(User user, BuildSchematic schematic) {
@@ -41,7 +35,7 @@ public abstract class BuildSession {
         this.rotate = false;
         //this.canCollideWithFoundation = false;
         this.targetBuild = null;
-        this.collidingFoundations = new ArrayList<>();
+        this.colliding = new ArrayList<>();
         //this.canCollide = false;
         this.lastPreviewLocation = null;
     }
@@ -83,13 +77,13 @@ public abstract class BuildSession {
                 this.schematic.getType().equals("foundation") ? -1 : targetBuild.id,
                 this.root,
                 new ArrayList<>(this.placeholders.keySet()),
-                this.collidingFoundations);
+                this.colliding);
 
         Main.instance.databaseManager.save(build);
         Main.instance.databaseManager.save(build, false);
 
 
-        for (Build foundation : this.collidingFoundations) {
+        for (Build foundation : this.colliding) {
             foundation.addCollidingFoundation(Main.instance.databaseManager.getBuild(this.root));
         }
     }
@@ -101,6 +95,10 @@ public abstract class BuildSession {
         List<PluginLocation> toRemove = new ArrayList<>();
         placeholders.forEach((location, material) -> {
             if (!location.getBlock().getType().equals(Material.AIR)) {
+                Build b = Main.instance.getDatabaseManager().getBuild(location);
+                if(!colliding.contains(b)){
+                    colliding.add(b);
+                }
                 toRemove.add(location);
                 return;
             }
