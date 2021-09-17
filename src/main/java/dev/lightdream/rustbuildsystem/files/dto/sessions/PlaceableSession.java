@@ -2,7 +2,6 @@ package dev.lightdream.rustbuildsystem.files.dto.sessions;
 
 import dev.lightdream.api.databases.User;
 import dev.lightdream.api.files.dto.PluginLocation;
-import dev.lightdream.api.files.dto.Position;
 import dev.lightdream.rustbuildsystem.Main;
 import dev.lightdream.rustbuildsystem.Utils;
 import dev.lightdream.rustbuildsystem.database.Build;
@@ -47,17 +46,20 @@ public class PlaceableSession extends BuildSession {
         this.targetBuild = Main.instance.databaseManager.getBuild(this.root);
 
         if (targetBuild == null) {
+            this.root = null;
             return;
         }
 
         Build foundation = targetBuild.getFoundation();
 
         if (foundation == null) {
+            this.root = null;
             return;
         }
 
         if (this.schematic.isRoof()) {
             if (Main.instance.databaseManager.getBuilds(foundation.id, "wall").size() == 0) {
+                this.root = null;
                 return;
             }
         }
@@ -71,6 +73,7 @@ public class PlaceableSession extends BuildSession {
         this.root = this.root.newOffset(this.schematic.getRootOffset());
 
         if (Main.instance.databaseManager.getBuild(this.root) != null) {
+            this.root = null;
             return;
         }
 

@@ -68,9 +68,16 @@ public abstract class BuildSession {
             }
         }
 
+        List<ConfigurablePluginLocation>toRemove = new ArrayList<>();
+
         this.placeholders.forEach((location, material) -> {
-            location.setBlock(material.parseMaterial());
+            if(!location.getBlock().getType().equals(Material.AIR)){
+                //location.setBlock(material.parseMaterial());
+                toRemove.add(location);
+            }
         });
+
+        toRemove.forEach(l->this.placeholders.remove(l));
 
         Build build = new Build(
                 this.user.id,
@@ -82,11 +89,13 @@ public abstract class BuildSession {
 
         //Main.instance.databaseManager.save(build, false);
         Main.instance.databaseManager.save(build);
-
+        build.build();
 
         for (Build foundation : this.colliding) {
             foundation.addCollidingFoundation(Main.instance.databaseManager.getBuild(this.root));
         }
+
+        Main.instance.databaseManager.save(build);
     }
 
     public abstract boolean canBuild();

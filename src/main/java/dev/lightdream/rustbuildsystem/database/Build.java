@@ -315,7 +315,10 @@ public class Build {
             if (this.rootLocation.rotationX == 90) {
                 offset.flip();
             }
-            getRootLocation().newOffset(offset).setBlock(Main.instance.config.builds.get(this.type).getOffsets().get(p).get(this.level).parseMaterial());
+            PluginLocation pluginLocation = getRootLocation().newOffset(offset);
+            if(pluginLocation.getBlock().getType().equals(Material.AIR)) {
+                pluginLocation.setBlock(Main.instance.config.builds.get(this.type).getOffsets().get(p).get(this.level).parseMaterial());
+            }
         }
     }
 

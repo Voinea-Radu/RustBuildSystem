@@ -28,21 +28,21 @@ public class Config extends dev.lightdream.api.files.config.Config {
                     put(new ConfigurablePosition(-2, 0, 2, false), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
 
                     put(new ConfigurablePosition(-1, 0, -2, false), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(-1, 0, -1, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(-1, 0, 0, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(-1, 0, 1, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(-1, 0, -1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(-1, 0, 0, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(-1, 0, 1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
                     put(new ConfigurablePosition(-1, 0, 2, false), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
 
                     put(new ConfigurablePosition(0, 0, -2, false), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(0, 0, -1, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(0, 0, 0, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(0, 0, 1, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(0, 0, -1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(0, 0, 0, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(0, 0, 1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
                     put(new ConfigurablePosition(0, 0, 2, false), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
 
                     put(new ConfigurablePosition(1, 0, -2, false), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(1, 0, -1, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(1, 0, 0, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(1, 0, 1, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(1, 0, -1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(1, 0, 0, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(1, 0, 1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
                     put(new ConfigurablePosition(1, 0, 2, false), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
 
                     put(new ConfigurablePosition(2, 0, -2, false), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
@@ -82,27 +82,27 @@ public class Config extends dev.lightdream.api.files.config.Config {
                 new Position(0, 1, 0),
                 new HashMap<ConfigurablePosition, List<XMaterial>>() {{
                     put(new ConfigurablePosition(0, 0, -2, false), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(0, 0, -1, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(0, 0, 0, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(0, 0, 1, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(0, 0, -1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(0, 0, 0, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(0, 0, 1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
                     put(new ConfigurablePosition(0, 0, 2, false), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
 
                     put(new ConfigurablePosition(0, 1, -2, false), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(0, 1, -1, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(0, 1, 0, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(0, 1, 1, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(0, 1, -1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(0, 1, 0, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(0, 1, 1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
                     put(new ConfigurablePosition(0, 1, 2, false), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
 
                     put(new ConfigurablePosition(0, 2, -2, false), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(0, 2, -1, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(0, 2, 0, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(0, 2, 1, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(0, 2, -1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(0, 2, 0, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(0, 2, 1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
                     put(new ConfigurablePosition(0, 2, 2, false), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
 
                     put(new ConfigurablePosition(0, 3, -2, false), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(0, 3, -1, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(0, 3, 0, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(0, 3, 1, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(0, 3, -1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(0, 3, 0, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(0, 3, 1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
                     put(new ConfigurablePosition(0, 3, 2, false), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
                 }},
                 Arrays.asList(
@@ -123,35 +123,35 @@ public class Config extends dev.lightdream.api.files.config.Config {
                 "roof",
                 new Position(0, 4, 0),
                 new HashMap<ConfigurablePosition, List<XMaterial>>() {{
-                    put(new ConfigurablePosition(-2, 0, -2, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(-2, 0, -1, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(-2, 0, 0, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(-2, 0, 1, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(-2, 0, 2, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(-2, 0, -2, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(-2, 0, -1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(-2, 0, 0, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(-2, 0, 1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(-2, 0, 2, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
 
-                    put(new ConfigurablePosition(-1, 0, -2, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(-1, 0, -1, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(-1, 0, 0, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(-1, 0, 1, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(-1, 0, 2, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(-1, 0, -2, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(-1, 0, -1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(-1, 0, 0, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(-1, 0, 1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(-1, 0, 2, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
 
-                    put(new ConfigurablePosition(0, 0, -2, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(0, 0, -1, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(0, 0, 0, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(0, 0, 1, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(0, 0, 2, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(0, 0, -2, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(0, 0, -1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(0, 0, 0, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(0, 0, 1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(0, 0, 2, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
 
-                    put(new ConfigurablePosition(1, 0, -2, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(1, 0, -1, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(1, 0, 0, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(1, 0, 1, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(1, 0, 2, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(1, 0, -2, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(1, 0, -1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(1, 0, 0, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(1, 0, 1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(1, 0, 2, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
 
-                    put(new ConfigurablePosition(2, 0, -2, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(2, 0, -1, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(2, 0, 0, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(2, 0, 1, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(2, 0, 2, true), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(2, 0, -2, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(2, 0, -1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(2, 0, 0, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(2, 0, 1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(2, 0, 2, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
                 }},
                 Arrays.asList(
                         new Cost(new HashMap<XMaterial, Integer>() {{

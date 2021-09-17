@@ -134,7 +134,12 @@ public class FoundationSession extends BuildSession {
             Build b = Main.instance.databaseManager.getBuild(location);
             if (b != null) {
                 if (this.schematic.getType().equals(b.type)) {
-                    continue;
+                    if(b.equals(targetBuild)){
+                        continue;
+                    }
+                    if(b.getColliding().contains(targetBuild)){
+                        continue;
+                    }
                 }
             }
 
