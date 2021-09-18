@@ -25,6 +25,8 @@ public class Build {
     public int ownerId;
     @DatabaseField(columnName = "type")
     public String type;
+    @DatabaseField(columnName = "name")
+    public String name;
     @DatabaseField(columnName = "foundation_id")
     public int foundationID;
     @DatabaseField(columnName = "root_location", dataType = DataType.SERIALIZABLE)
@@ -38,15 +40,12 @@ public class Build {
     @DatabaseField(columnName = "colliding", dataType = DataType.SERIALIZABLE)
     public HashSet<Integer> colliding;
 
-    //private List<PluginLocation> blockLocationsList;
-
-    public Build(int ownerId, String type, int foundationID, PluginLocation rootLocation, List<ConfigurablePluginLocation> blockLocations, List<Build> colliding) {
+    public Build(int ownerId, String type, String name, int foundationID, PluginLocation rootLocation, List<ConfigurablePluginLocation> blockLocations, List<Build> colliding) {
         this.ownerId = ownerId;
         this.type = type;
+        this.name = name;
         this.foundationID = foundationID;
-        //this.rootLocation = new Gson().toJson(rootLocation);
         this.rootLocation = rootLocation;
-        //this.blockLocations = new Gson().toJson(blockLocations);
         this.blockLocations = new HashSet<>(blockLocations);
         this.level = 0;
         this.health = Main.instance.config.builds.get(type).getHeath().get(level);
@@ -60,48 +59,10 @@ public class Build {
     }
 
     public List<PluginLocation> getMarinRoots(boolean fullRotations, boolean corners, boolean foundationPlace) {
-                /*
-
-        if (isRoof() || isFoundation()) {
-        } else {
-            return new ArrayList<>();
-        }
-
-        int minX = 1000000000;
-        int minZ = 1000000000;
-        int maxX = -1000000000;
-        int maxZ = -1000000000;
-        int maxY = -1000000000;
-        List<PluginLocation> blockLocations = getBlockLocations();
-
-        for (PluginLocation location : blockLocations) {
-            if (minX >= location.x) {
-                minX = (int) Math.floor(location.x);
-            }
-            if (minZ >= location.z) {
-                minZ = (int) Math.floor(location.z);
-            }
-            if (maxX <= location.x) {
-                maxX = (int) Math.floor(location.x);
-            }
-            if (maxZ <= location.z) {
-                maxZ = (int) Math.floor(location.z);
-            }
-            if (maxY <= location.y) {
-                maxY = (int) Math.floor(location.y);
-            }
-        }
-        */
 
         if (!fullRotations) {
             if (!foundationPlace) {
                 return Arrays.asList(
-                    /*
-                    new PluginLocation(blockLocations.get(0).world, minX, maxY, (minZ + maxZ) / 2),
-                    new PluginLocation(blockLocations.get(0).world, maxX, maxY, (minZ + maxZ) / 2),
-                    new PluginLocation(blockLocations.get(0).world, (minX + maxX) / 2, maxY, minZ, 90, 0),
-                    new PluginLocation(blockLocations.get(0).world, (minX + maxX) / 2, maxY, maxZ, 90, 0)
-                    */
                         this.rootLocation.newOffset(-2, 0, 0).newRotation(0, 0),
                         this.rootLocation.newOffset(2, 0, 0).newRotation(0, 0),
                         this.rootLocation.newOffset(0, 0, -2).newRotation(90, 0),
@@ -118,14 +79,7 @@ public class Build {
         }
         if (!corners) {
             if (!foundationPlace) {
-
                 return Arrays.asList(
-                        /*
-                        new PluginLocation(blockLocations.get(0).world, maxX, maxY, (minZ + maxZ) / 2, 0, 0),
-                        new PluginLocation(blockLocations.get(0).world, (minX + maxX) / 2, maxY, maxZ, 90, 0),
-                        new PluginLocation(blockLocations.get(0).world, minX, maxY, (minZ + maxZ) / 2, 180, 0),
-                        new PluginLocation(blockLocations.get(0).world, (minX + maxX) / 2, maxY, minZ, 270, 0)
-                        */
                         this.rootLocation.newOffset(-2, 0, 0).newRotation(0, 0),
                         this.rootLocation.newOffset(2, 0, 0).newRotation(90, 0),
                         this.rootLocation.newOffset(0, 0, -2).newRotation(180, 0),
@@ -141,19 +95,7 @@ public class Build {
             }
         }
         if (foundationPlace) {
-
             return Arrays.asList(
-                /*
-                new PluginLocation(blockLocations.get(0).world, maxX, maxY, (minZ + maxZ) / 2, 0, 0),
-                new PluginLocation(blockLocations.get(0).world, maxX, maxY, maxZ, 45, 0),
-                new PluginLocation(blockLocations.get(0).world, (minX + maxX) / 2, maxY, maxZ, 90, 0),
-                new PluginLocation(blockLocations.get(0).world, minX, maxY, maxZ, 135, 0),
-
-                new PluginLocation(blockLocations.get(0).world, minX, maxY, (minZ + maxZ) / 2, 180, 0),
-                new PluginLocation(blockLocations.get(0).world, minX, maxY, minZ, 225, 0),
-                new PluginLocation(blockLocations.get(0).world, (minX + maxX) / 2, maxY, minZ, 270, 0),
-                new PluginLocation(blockLocations.get(0).world, maxX, maxY, minZ, 315, 0)
-                */
                     this.rootLocation.newOffset(2, 0, 0).newRotation(0, 0),
                     this.rootLocation.newOffset(2, 0, 2).newRotation(45, 0),
                     this.rootLocation.newOffset(0, 0, 2).newRotation(90, 0),
@@ -195,16 +137,11 @@ public class Build {
     }
 
     public List<ConfigurablePluginLocation> getBlockLocations() {
-        //if (blockLocationsList == null) {
-        //    return Arrays.asList(new Gson().fromJson(blockLocations, PluginLocation[].class));
-        //}
-        //return blockLocationsList;
         return new ArrayList<>(blockLocations);
     }
 
     public PluginLocation getRootLocation() {
         return this.rootLocation;
-        //return new Gson().fromJson(this.rootLocation, PluginLocation.class);
     }
 
     public Build getFoundation() {
@@ -241,7 +178,7 @@ public class Build {
         if (isWall()) {
             List<Build> walls = Main.instance.databaseManager.getBuilds(foundationID, "wall");
             if (walls.size() == 0) {
-                Main.instance.databaseManager.getBuilds(foundationID).forEach(Build::destroy);
+                Main.instance.databaseManager.getBuilds(foundationID, "roof").forEach(Build::destroy);
             }
         }
     }
@@ -265,12 +202,12 @@ public class Build {
 
     public void upgrade() {
         this.level++;
-        this.health = Main.instance.config.builds.get(this.type).getHeath().get(this.level);
-        Cost cost = Main.instance.config.builds.get(this.type).getCost().get(this.level);
+        this.health = Main.instance.config.builds.get(this.name).getHeath().get(this.level);
+        Cost cost = Main.instance.config.builds.get(this.name).getCost().get(this.level);
         Player player = Main.instance.databaseManager.getUser(this.ownerId).getPlayer();
         if (!cost.has(player)) {
             this.level--;
-            this.health = Main.instance.config.builds.get(this.type).getHeath().get(this.level);
+            this.health = Main.instance.config.builds.get(this.name).getHeath().get(this.level);
             return;
         }
 
@@ -310,14 +247,14 @@ public class Build {
     }
 
     public void build() {
-        for (ConfigurablePosition p : Main.instance.config.builds.get(this.type).getOffsets().keySet()) {
+        for (ConfigurablePosition p : Main.instance.config.builds.get(this.name).getOffsets().keySet()) {
             Position offset = p.clone();
             if (this.rootLocation.rotationX == 90) {
                 offset.flip();
             }
             PluginLocation pluginLocation = getRootLocation().newOffset(offset);
-            if(pluginLocation.getBlock().getType().equals(Material.AIR)) {
-                pluginLocation.setBlock(Main.instance.config.builds.get(this.type).getOffsets().get(p).get(this.level).parseMaterial());
+            if (pluginLocation.getBlock().getType().equals(Material.AIR)) {
+                pluginLocation.setBlock(Main.instance.config.builds.get(this.name).getOffsets().get(p).get(this.level).parseMaterial());
             }
         }
     }
@@ -353,7 +290,7 @@ public class Build {
             if (build == null) {
                 continue;
             }
-            if(current.contains(build)){
+            if (current.contains(build)) {
                 continue;
             }
             current.add(build);

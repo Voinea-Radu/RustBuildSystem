@@ -33,12 +33,19 @@ public class DatabaseManager extends dev.lightdream.api.managers.DatabaseManager
     public @Nullable Build getBuild(PluginLocation location, boolean breakable) {
         Optional<Build> optionalBuild;
         if (breakable) {
-            optionalBuild = getAll(Build.class).stream().filter(build -> build.getBlockLocations().contains(new ConfigurablePluginLocation(location, true))).findFirst();
+            optionalBuild = getAll(Build.class).stream().filter(build -> build.getRootLocation().equals(location) ||
+                    build.getBlockLocations().contains(new ConfigurablePluginLocation(location, true))).findFirst();
         } else {
-            optionalBuild = getAll(Build.class).stream().filter(build -> build.getBlockLocations().contains(new ConfigurablePluginLocation(location, true)) ||
+            optionalBuild = getAll(Build.class).stream().filter(build -> build.getRootLocation().equals(location) ||
+                    build.getBlockLocations().contains(new ConfigurablePluginLocation(location, true)) ||
                     build.getBlockLocations().contains(new ConfigurablePluginLocation(location, false))).findFirst();
         }
 
+        return optionalBuild.orElse(null);
+    }
+
+    public @Nullable Build getBuild(PluginLocation root, int ignore) {
+        Optional<Build> optionalBuild = getAll(Build.class).stream().filter(build -> build.getRootLocation().equals(root)).findFirst();
         return optionalBuild.orElse(null);
     }
 

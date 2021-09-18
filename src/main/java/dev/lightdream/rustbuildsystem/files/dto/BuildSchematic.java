@@ -45,4 +45,6 @@ public interface BuildSchematic {
 
     int getCanCollideUnder();
 
+    String getName();
+
 }

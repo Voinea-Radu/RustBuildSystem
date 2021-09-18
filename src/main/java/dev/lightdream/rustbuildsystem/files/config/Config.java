@@ -20,6 +20,7 @@ public class Config extends dev.lightdream.api.files.config.Config {
     public HashMap<String, BuildSchematic> builds = new HashMap<String, BuildSchematic>() {{
         put("foundation", new FoundationSchematic(
                 "foundation",
+                "foundation",
                 new Position(0, 1, 0),
                 new HashMap<ConfigurablePosition, List<XMaterial>>() {{
                     //Platform
@@ -81,6 +82,7 @@ public class Config extends dev.lightdream.api.files.config.Config {
         ));
         put("wall", new MarginSchematic(
                 "wall",
+                "wall",
                 new Position(0, 1, 0),
                 new HashMap<ConfigurablePosition, List<XMaterial>>() {{
                     put(new ConfigurablePosition(0, 0, -2, false), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
@@ -122,6 +124,7 @@ public class Config extends dev.lightdream.api.files.config.Config {
                 -1
         ));
         put("roof", new RoofSchematic(
+                "roof",
                 "roof",
                 new Position(0, 4, 0),
                 new HashMap<ConfigurablePosition, List<XMaterial>>() {{
