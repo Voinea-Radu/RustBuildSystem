@@ -13,6 +13,7 @@ import dev.lightdream.rustbuildsystem.files.dto.ConfigurablePosition;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -137,7 +138,7 @@ public class FoundationSession extends BuildSession {
                     if(b.equals(targetBuild)){
                         continue;
                     }
-                    if(b.getColliding().contains(targetBuild)){
+                    if(b.getConnections(new ArrayList<>()).contains(targetBuild)){
                         continue;
                     }
                 }

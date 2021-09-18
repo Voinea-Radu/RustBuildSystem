@@ -70,14 +70,14 @@ public abstract class BuildSession {
 
         List<ConfigurablePluginLocation>toRemove = new ArrayList<>();
 
-        this.placeholders.forEach((location, material) -> {
-            if(!location.getBlock().getType().equals(Material.AIR)){
-                //location.setBlock(material.parseMaterial());
-                toRemove.add(location);
-            }
-        });
+        //this.placeholders.forEach((location, material) -> {
+        //    if(!location.getBlock().getType().equals(Material.AIR)){
+        //        //location.setBlock(material.parseMaterial());
+        //        toRemove.add(location);
+        //    }
+        //});
 
-        toRemove.forEach(l->this.placeholders.remove(l));
+        //toRemove.forEach(l->this.placeholders.remove(l));
 
         Build build = new Build(
                 this.user.id,

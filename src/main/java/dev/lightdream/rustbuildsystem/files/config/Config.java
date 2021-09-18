@@ -100,9 +100,9 @@ public class Config extends dev.lightdream.api.files.config.Config {
                     put(new ConfigurablePosition(0, 2, 2, false), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
 
                     put(new ConfigurablePosition(0, 3, -2, false), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(0, 3, -1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(0, 3, 0, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
-                    put(new ConfigurablePosition(0, 3, 1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(0, 3, -1, false), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(0, 3, 0, false), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
+                    put(new ConfigurablePosition(0, 3, 1, false), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
                     put(new ConfigurablePosition(0, 3, 2, false), Arrays.asList(XMaterial.OAK_PLANKS, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
                 }},
                 Arrays.asList(

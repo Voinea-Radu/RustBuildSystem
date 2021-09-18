@@ -347,6 +347,21 @@ public class Build {
         return collidingFoundations;
     }
 
+    public List<Build> getConnections(List<Build> current) {
+        for (Integer id : new ArrayList<>(this.colliding)) {
+            Build build = Main.instance.databaseManager.getBuild(id);
+            if (build == null) {
+                continue;
+            }
+            if(current.contains(build)){
+                continue;
+            }
+            current.add(build);
+            current.addAll(build.getConnections(current));
+        }
+        return current;
+    }
+
     public void addCollidingFoundation(Build build) {
         if (build == null) {
             return;

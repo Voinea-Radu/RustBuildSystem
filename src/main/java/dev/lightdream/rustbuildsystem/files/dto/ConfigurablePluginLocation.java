@@ -33,12 +33,13 @@ public class ConfigurablePluginLocation extends PluginLocation {
     public boolean equals(Object o) {
         if (this == o) {
             return true;
-        } else if (o != null && this.getClass() == o.getClass()) {
-            ConfigurablePluginLocation that = (ConfigurablePluginLocation)o;
-            return Double.compare(that.x, this.x) == 0 && Double.compare(that.y, this.y) == 0 && Double.compare(that.z, this.z) == 0 && Objects.equals(this.world, that.world) && this.breakable == that.breakable;
-        } else {
-            return false;
         }
+        if (o != null && this.getClass() == o.getClass()) {
+            ConfigurablePluginLocation that = (ConfigurablePluginLocation)o;
+            return Double.compare(that.x, this.x) == 0 && Double.compare(that.y, this.y) == 0 && Double.compare(that.z, this.z) == 0 && Objects.equals(this.world, that.world) && this.breakable.equals(that.breakable);
+        }
+            return false;
+
     }
 
     public int hashCode() {

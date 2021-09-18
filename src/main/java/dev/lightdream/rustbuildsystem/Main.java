@@ -4,13 +4,11 @@ import dev.lightdream.api.API;
 import dev.lightdream.api.LightDreamPlugin;
 import dev.lightdream.api.databases.User;
 import dev.lightdream.api.files.config.SQLConfig;
-import dev.lightdream.api.files.dto.Position;
 import dev.lightdream.api.managers.KeyDeserializerManager;
 import dev.lightdream.api.managers.MessageManager;
 import dev.lightdream.libs.fasterxml.databind.module.SimpleModule;
 import dev.lightdream.rustbuildsystem.commands.BuildCommand;
 import dev.lightdream.rustbuildsystem.commands.UpgradeCommand;
-import dev.lightdream.rustbuildsystem.database.Build;
 import dev.lightdream.rustbuildsystem.files.config.Config;
 import dev.lightdream.rustbuildsystem.files.config.Lang;
 import dev.lightdream.rustbuildsystem.files.dto.ConfigurablePosition;
@@ -38,7 +36,7 @@ public final class Main extends LightDreamPlugin {
 
     @Override
     public void onEnable() {
-        init("RustBuildSystem", "rbs", "1.26");
+        init("RustBuildSystem", "rbs", "1.27");
         instance = this;
         eventManager = new EventManager(this);
         databaseManager = new DatabaseManager(this);
@@ -66,7 +64,7 @@ public final class Main extends LightDreamPlugin {
 
     @Override
     public void registerFileManagerModules() {
-        fileManager.registerModule(new SimpleModule().addKeyDeserializer(ConfigurablePosition.class,  new KeyDeserializerManager(new HashMap<String, Class<?>>() {{
+        fileManager.registerModule(new SimpleModule().addKeyDeserializer(ConfigurablePosition.class, new KeyDeserializerManager(new HashMap<String, Class<?>>() {{
             put("ConfigurablePosition", ConfigurablePosition.class);
         }})));
     }
