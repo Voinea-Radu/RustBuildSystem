@@ -117,9 +117,7 @@ public class EventManager implements Listener {
             }
         });
         build.damage();
-        Utils.sendTitle(event.getPlayer(), "&c"+build.health+"&4&l?", "&f["+Utils.getProgressBar(build.health, build.getMaxHealth(), 15, "●", "&a", "&c")+"&f]");
-        Main.instance.getMessageManager().sendMessage(user, Main.instance.lang.healthMessage.replace("%health%", String.valueOf(build.health)));
+        Utils.sendTitle(event.getPlayer(), "&c"+build.health+" &4\u2764", "&f["+Utils.getProgressBar(build.health, build.getMaxHealth(), 15, "\u25CF", "&c&l", "&7&l")+"&f]");
         event.setCancelled(true);
     }
-
 }
