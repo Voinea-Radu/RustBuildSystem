@@ -71,7 +71,7 @@ public abstract class BuildSession {
             }
         }
 
-        List<ConfigurablePluginLocation>toRemove = new ArrayList<>();
+        //List<ConfigurablePluginLocation>toRemove = new ArrayList<>();
 
         //this.placeholders.forEach((location, material) -> {
         //    if(!location.getBlock().getType().equals(Material.AIR)){
@@ -83,20 +83,32 @@ public abstract class BuildSession {
         //toRemove.forEach(l->this.placeholders.remove(l));
 
         Bukkit.getOnlinePlayers().forEach(players -> {
-            if (players.getLocation().distance(player.getLocation()) < 10){
+            if (players.getLocation().distance(player.getLocation()) < 10) {
                 player.getWorld().playSound(player.getLocation(), Sound.ZOMBIE_METAL, 1, 500);
             }
         });
 
+        List<ConfigurablePluginLocation> toRemove = new ArrayList<>();
+
+        this.placeholders.forEach((l, m) -> {
+            Build b = Main.instance.databaseManager.getBuild(l);
+            if (b == null && !l.getBlock().getType().equals(Material.AIR)) {
+                toRemove.add(l);
+            }
+        });
+
+        toRemove.forEach(l -> this.placeholders.remove(l));
+
+
         Build build = new Build(
                 this.user.id,
                 this.schematic.getType(),
+                this.schematic.getName(),
                 this.schematic.getType().equals("foundation") ? -1 : targetBuild.id,
                 this.root,
                 new ArrayList<>(this.placeholders.keySet()),
                 this.colliding);
 
-        //Main.instance.databaseManager.save(build, false);
         Main.instance.databaseManager.save(build);
         build.build();
 
@@ -111,7 +123,6 @@ public abstract class BuildSession {
 
     @SuppressWarnings("ConstantConditions")
     public void showPreview(boolean canBuild) {
-        //List<PluginLocation> toRemove = new ArrayList<>();
         placeholders.forEach((location, material) -> {
             if (!location.getBlock().getType().equals(Material.AIR)) {
                 Build b = Main.instance.getDatabaseManager().getBuild(location);
@@ -120,13 +131,10 @@ public abstract class BuildSession {
                         colliding.add(b);
                     }
                 }
-                //toRemove.add(location);
                 return;
             }
-
             user.getPlayer().sendBlockChange(location.toLocation(), canBuild ? XMaterial.LIGHT_BLUE_STAINED_GLASS.parseMaterial() : XMaterial.RED_STAINED_GLASS.parseMaterial(),
                     canBuild ? XMaterial.LIGHT_BLUE_STAINED_GLASS.getData() : XMaterial.RED_STAINED_GLASS.getData());
         });
-        //toRemove.forEach(l->placeholders.remove(l));
     }
 }

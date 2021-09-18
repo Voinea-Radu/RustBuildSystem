@@ -22,12 +22,18 @@ import java.util.List;
 //@JsonTypeName("RoofSchematic")
 public class RoofSchematic implements BuildSchematic {
 
+    private String name;
     private String type;
     private Position rootOffset;
     private HashMap<ConfigurablePosition, List<XMaterial>> offsets;
     private List<Cost> cost;
     private List<Integer> heath;
     private int canCollideUnder;
+
+    @Override
+    public String getName() {
+        return name;
+    }
 
     @Override
     public boolean isRoof() {

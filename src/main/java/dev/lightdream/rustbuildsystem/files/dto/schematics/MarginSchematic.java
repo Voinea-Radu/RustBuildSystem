@@ -22,6 +22,7 @@ import java.util.List;
 //@JsonTypeName("FoundationSchematic")
 public class MarginSchematic implements BuildSchematic {
 
+    private String name;
     private String type;
     private Position rootOffset;
     private HashMap<ConfigurablePosition, List<XMaterial>> offsets;
@@ -95,5 +96,10 @@ public class MarginSchematic implements BuildSchematic {
                 ", heath=" + heath +
                 ", canCollideUnder=" + canCollideUnder +
                 '}';
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }

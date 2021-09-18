@@ -115,7 +115,7 @@ public class EventManager implements Listener {
             }
         });
         build.damage();
-        event.getPlayer().sendTitle("", ChatColor.translateAlternateColorCodes('&', "&7Pozosta³e HP: &d"+build.health));
+        event.getPlayer().sendTitle("", ChatColor.translateAlternateColorCodes('&', "&7Pozostae HP: &d"+build.health));
         Main.instance.getMessageManager().sendMessage(user, Main.instance.lang.healthMessage.replace("%health%", String.valueOf(build.health)));
         event.setCancelled(true);
     }

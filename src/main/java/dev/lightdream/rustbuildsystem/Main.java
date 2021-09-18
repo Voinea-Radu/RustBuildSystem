@@ -14,7 +14,6 @@ import dev.lightdream.rustbuildsystem.files.config.Lang;
 import dev.lightdream.rustbuildsystem.files.dto.ConfigurablePosition;
 import dev.lightdream.rustbuildsystem.managers.DatabaseManager;
 import dev.lightdream.rustbuildsystem.managers.EventManager;
-import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -36,7 +35,7 @@ public final class Main extends LightDreamPlugin {
 
     @Override
     public void onEnable() {
-        init("RustBuildSystem", "rbs", "1.27");
+        init("RustBuildSystem", "rbs", "1.28");
         instance = this;
         eventManager = new EventManager(this);
         databaseManager = new DatabaseManager(this);
@@ -58,7 +57,7 @@ public final class Main extends LightDreamPlugin {
 
     @Override
     public void disable() {
-        eventManager.buildMode.forEach((user, build) -> build.placeholders.forEach((location, material) -> location.setBlock(Material.AIR)));
+        //eventManager.buildMode.forEach((user, build) -> build.placeholders.forEach((location, material) -> location.setBlock(Material.AIR)));
         databaseManager.save();
     }
 
