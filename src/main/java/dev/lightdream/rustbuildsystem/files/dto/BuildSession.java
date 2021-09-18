@@ -7,7 +7,10 @@ import dev.lightdream.rustbuildsystem.Main;
 import dev.lightdream.rustbuildsystem.database.Build;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +49,7 @@ public abstract class BuildSession {
 
     public abstract void preview();
 
-    public void build() {
+    public void build(Player player) {
         preview();
         this.clearPlaceholders();
 
@@ -70,6 +73,12 @@ public abstract class BuildSession {
 
         this.placeholders.forEach((location, material) -> {
             location.setBlock(material.parseMaterial());
+        });
+
+        Bukkit.getOnlinePlayers().forEach(players -> {
+            if (players.getLocation().distance(player.getLocation()) < 10){
+                player.getWorld().playSound(player.getLocation(), Sound.ZOMBIE_METAL, 1, 500);
+            }
         });
 
         Build build = new Build(
@@ -106,8 +115,8 @@ public abstract class BuildSession {
                 return;
             }
 
-            user.getPlayer().sendBlockChange(location.toLocation(), canBuild ? XMaterial.LIME_STAINED_GLASS.parseMaterial() : XMaterial.RED_STAINED_GLASS.parseMaterial(),
-                    canBuild ? XMaterial.LIME_STAINED_GLASS.getData() : XMaterial.RED_STAINED_GLASS.getData());
+            user.getPlayer().sendBlockChange(location.toLocation(), canBuild ? XMaterial.LIGHT_BLUE_STAINED_GLASS.parseMaterial() : XMaterial.RED_STAINED_GLASS.parseMaterial(),
+                    canBuild ? XMaterial.LIGHT_BLUE_STAINED_GLASS.getData() : XMaterial.RED_STAINED_GLASS.getData());
         });
         //toRemove.forEach(l->placeholders.remove(l));
     }
