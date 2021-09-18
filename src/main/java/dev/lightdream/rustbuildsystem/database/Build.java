@@ -225,6 +225,10 @@ public class Build {
         }
     }
 
+    public int getMaxHealth(){
+        return Main.instance.config.builds.get(this.name).getHeath().get(this.level);
+    }
+
     public void rebuild(List<Build> rebuilt) {
         List<Build> builds;
         if (isFoundation() || isRoof()) {

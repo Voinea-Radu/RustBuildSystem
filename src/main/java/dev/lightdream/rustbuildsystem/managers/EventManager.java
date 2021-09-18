@@ -2,7 +2,9 @@ package dev.lightdream.rustbuildsystem.managers;
 
 import dev.lightdream.api.databases.User;
 import dev.lightdream.api.files.dto.PluginLocation;
+import dev.lightdream.api.files.dto.XMaterial;
 import dev.lightdream.rustbuildsystem.Main;
+import dev.lightdream.rustbuildsystem.Utils;
 import dev.lightdream.rustbuildsystem.database.Build;
 import dev.lightdream.rustbuildsystem.files.dto.BuildSession;
 import org.bukkit.Bukkit;
@@ -115,7 +117,7 @@ public class EventManager implements Listener {
             }
         });
         build.damage();
-        event.getPlayer().sendTitle("", ChatColor.translateAlternateColorCodes('&', "&7Pozostae HP: &d"+build.health));
+        Utils.sendTitle(event.getPlayer(), "&c"+build.health+"&4&l?", "&f["+Utils.getProgressBar(build.health, build.getMaxHealth(), 15, "●", "&a", "&c")+"&f]");
         Main.instance.getMessageManager().sendMessage(user, Main.instance.lang.healthMessage.replace("%health%", String.valueOf(build.health)));
         event.setCancelled(true);
     }
