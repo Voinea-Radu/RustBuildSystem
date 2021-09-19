@@ -69,7 +69,7 @@ public class Utils extends dev.lightdream.api.utils.Utils {
     }
 
     public static String colored(String message) {
-        return ChatColor.translateAlternateColorCodes('&', message).replace(">>", "»");
+        return ChatColor.translateAlternateColorCodes('&', message).replace(">>", "?");
     }
 
     public static String getProgressBar(int current, int max, int totalBars, String symbol, String completedColor, String notCompletedColor) {
