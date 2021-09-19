@@ -20,7 +20,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonSerialize(using = BuildSchematicSerializer.class)
-//@JsonTypeName("FoundationSchematic")
 public class FoundationSchematic implements BuildSchematic {
 
     private String name;

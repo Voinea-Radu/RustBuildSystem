@@ -14,6 +14,7 @@ public class BuildSchematicSerializer extends JsonSerializer<BuildSchematic> {
     public void serialize(BuildSchematic buildSchematic, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
         jsonGenerator.writeStartObject();
         jsonGenerator.writeObjectField("class", buildSchematic.getClass());
+        jsonGenerator.writeStringField("name", buildSchematic.getName());
         jsonGenerator.writeStringField("type", buildSchematic.getType());
         jsonGenerator.writeObjectField("rootOffset", buildSchematic.getRootOffset());
         jsonGenerator.writeObjectField("offsets", buildSchematic.getOffsets());

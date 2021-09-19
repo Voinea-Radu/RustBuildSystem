@@ -151,17 +151,11 @@ public class Build {
         return Main.instance.databaseManager.getBuild(foundationID);
     }
 
-    public List<Build> getWalls() {
-        if (isFoundation() || isRoof()) {
-            return Main.instance.databaseManager.getBuilds(this.id, "wall");
-        }
-        return new ArrayList<>();
-    }
-
     public boolean isRoof() {
         return this.type.equals("roof");
     }
 
+    @SuppressWarnings("ConstantConditions")
     public void destroy() {
         if (isFoundation() || isRoof()) {
             Main.instance.databaseManager.getBuilds(this.id).forEach(Build::destroy);
@@ -169,16 +163,17 @@ public class Build {
 
         this.getBlockLocations().forEach(location -> location.setBlock(Material.AIR));
 
-        List<Build> arrayList = new ArrayList<>();
-        arrayList.add(this);
-        getColliding().forEach(build -> build.rebuild(arrayList));
+        HashSet<Build> hs = Main.instance.databaseManager.getBuild(getFoundation().id).getRebuilds();
+        hs.remove(this);
+        hs.forEach(Build::build);
 
         Main.instance.databaseManager.delete(this);
 
         if (isWall()) {
             List<Build> walls = Main.instance.databaseManager.getBuilds(foundationID, "wall");
             if (walls.size() == 0) {
-                Main.instance.databaseManager.getBuilds(foundationID, "roof").forEach(Build::destroy);
+                List<Build> roofs = Main.instance.databaseManager.getBuilds(foundationID, "roof");
+                roofs.forEach(Build::destroy);
             }
         }
     }
@@ -200,6 +195,7 @@ public class Build {
         return type.equals("wall");
     }
 
+    @SuppressWarnings("ConstantConditions")
     public void upgrade() {
         this.level++;
         this.health = Main.instance.config.builds.get(this.name).getHeath().get(this.level);
@@ -213,7 +209,7 @@ public class Build {
 
         cost.take(player);
 
-        build();
+        build(true);
     }
 
     public void damage() {
@@ -225,36 +221,42 @@ public class Build {
         }
     }
 
-    public void rebuild(List<Build> rebuilt) {
-        List<Build> builds;
-        if (isFoundation() || isRoof()) {
-            builds = Main.instance.databaseManager.getBuilds(this.id);
-        } else {
-            builds = Main.instance.databaseManager.getBuilds(foundationID);
-        }
+    public HashSet<Build> getRebuilds() {
+        return getRebuilds(new HashSet<>());
+    }
 
-        builds.remove(this);
+    public HashSet<Build> getRebuilds(HashSet<Build> rebuilt) {
+        rebuilt.add(this);
+        List<Build> builds = new ArrayList<>();
+        builds.addAll(getConnections());
+        builds.addAll(Main.instance.databaseManager.getBuilds(getFoundation().id));
 
         for (Build build : builds) {
             if (rebuilt.contains(build)) {
                 continue;
             }
             rebuilt.add(build);
-            build.rebuild(rebuilt);
+            build.getRebuilds(rebuilt);
         }
 
-        build();
+        return rebuilt;
     }
 
     public void build() {
+        build(false);
+    }
+
+    @SuppressWarnings("deprecation")
+    public void build(boolean force) {
         for (ConfigurablePosition p : Main.instance.config.builds.get(this.name).getOffsets().keySet()) {
             Position offset = p.clone();
             if (this.rootLocation.rotationX == 90) {
                 offset.flip();
             }
             PluginLocation pluginLocation = getRootLocation().newOffset(offset);
-            if (pluginLocation.getBlock().getType().equals(Material.AIR)) {
+            if (pluginLocation.getBlock().getType().equals(Material.AIR) || force) {
                 pluginLocation.setBlock(Main.instance.config.builds.get(this.name).getOffsets().get(p).get(this.level).parseMaterial());
+                pluginLocation.getBlock().setData(Main.instance.config.builds.get(this.name).getOffsets().get(p).get(this.level).getData());
             }
         }
     }
@@ -272,19 +274,11 @@ public class Build {
         return Objects.hash(id);
     }
 
-    public List<Build> getColliding() {
-        List<Build> collidingFoundations = new ArrayList<>();
-        for (Integer id : new ArrayList<>(this.colliding)) {
-            Build build = Main.instance.databaseManager.getBuild(id);
-            if (build == null) {
-                continue;
-            }
-            collidingFoundations.add(build);
-        }
-        return collidingFoundations;
+    public List<Build> getConnections() {
+        return getConnections(new HashSet<>());
     }
 
-    public List<Build> getConnections(List<Build> current) {
+    public List<Build> getConnections(HashSet<Build> current) {
         for (Integer id : new ArrayList<>(this.colliding)) {
             Build build = Main.instance.databaseManager.getBuild(id);
             if (build == null) {
@@ -296,7 +290,7 @@ public class Build {
             current.add(build);
             current.addAll(build.getConnections(current));
         }
-        return current;
+        return new ArrayList<>(current);
     }
 
     public void addCollidingFoundation(Build build) {

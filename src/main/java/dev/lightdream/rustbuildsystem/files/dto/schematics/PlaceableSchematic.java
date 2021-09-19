@@ -19,7 +19,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonSerialize(using = BuildSchematicSerializer.class)
-//@JsonTypeName("PlaceableSchematic")
 public class PlaceableSchematic implements BuildSchematic {
 
     private String name;

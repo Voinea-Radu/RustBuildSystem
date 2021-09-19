@@ -5,7 +5,6 @@ import dev.lightdream.api.files.dto.PluginLocation;
 import dev.lightdream.rustbuildsystem.Main;
 import dev.lightdream.rustbuildsystem.database.Build;
 import dev.lightdream.rustbuildsystem.files.dto.BuildSession;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
@@ -34,6 +33,7 @@ public class EventManager implements Listener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         User user = plugin.databaseManager.getUser(event.getPlayer());
+
         if (user.getPlayer() == null) {
             return;
         }
@@ -56,7 +56,6 @@ public class EventManager implements Listener {
             }
         }
 
-        //Preview the build session
         BuildSession buildSession = buildMode.get(user);
         buildSession.preview();
     }
@@ -109,14 +108,11 @@ public class EventManager implements Listener {
             return;
         }
 
-        Bukkit.getOnlinePlayers().forEach(players -> {
-            if (players.getLocation().distance(event.getBlock().getLocation()) < 10){
-                event.getBlock().getWorld().playSound(event.getBlock().getLocation(), Sound.ZOMBIE_WOOD, 1, 500);
-            }
-        });
+        event.getBlock().getWorld().playSound(event.getBlock().getLocation(), Sound.ZOMBIE_WOOD, 1, 500);
         build.damage();
-        event.getPlayer().sendTitle("", ChatColor.translateAlternateColorCodes('&', "&7Pozostae HP: &d"+build.health));
+        event.getPlayer().sendTitle("", ChatColor.translateAlternateColorCodes('&', "&7Pozostae HP: &d" + build.health));
         Main.instance.getMessageManager().sendMessage(user, Main.instance.lang.healthMessage.replace("%health%", String.valueOf(build.health)));
+
         event.setCancelled(true);
     }
 

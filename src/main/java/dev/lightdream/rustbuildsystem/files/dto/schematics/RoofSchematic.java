@@ -19,7 +19,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonSerialize(using = BuildSchematicSerializer.class)
-//@JsonTypeName("RoofSchematic")
 public class RoofSchematic implements BuildSchematic {
 
     private String name;

@@ -19,7 +19,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonSerialize(using = BuildSchematicSerializer.class)
-//@JsonTypeName("FoundationSchematic")
 public class MarginSchematic implements BuildSchematic {
 
     private String name;

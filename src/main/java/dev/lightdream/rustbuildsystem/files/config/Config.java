@@ -8,8 +8,6 @@ import dev.lightdream.rustbuildsystem.files.dto.Cost;
 import dev.lightdream.rustbuildsystem.files.dto.schematics.FoundationSchematic;
 import dev.lightdream.rustbuildsystem.files.dto.schematics.MarginSchematic;
 import dev.lightdream.rustbuildsystem.files.dto.schematics.RoofSchematic;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -126,7 +124,7 @@ public class Config extends dev.lightdream.api.files.config.Config {
         put("roof", new RoofSchematic(
                 "roof",
                 "roof",
-                new Position(0, 4, 0),
+                new Position(0, 5, 0),
                 new HashMap<ConfigurablePosition, List<XMaterial>>() {{
                     put(new ConfigurablePosition(-2, 0, -2, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));
                     put(new ConfigurablePosition(-2, 0, -1, true), Arrays.asList(XMaterial.HAY_BLOCK, XMaterial.COBBLESTONE, XMaterial.OBSIDIAN));

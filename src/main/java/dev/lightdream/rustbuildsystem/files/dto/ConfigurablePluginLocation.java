@@ -35,10 +35,10 @@ public class ConfigurablePluginLocation extends PluginLocation {
             return true;
         }
         if (o != null && this.getClass() == o.getClass()) {
-            ConfigurablePluginLocation that = (ConfigurablePluginLocation)o;
+            ConfigurablePluginLocation that = (ConfigurablePluginLocation) o;
             return Double.compare(that.x, this.x) == 0 && Double.compare(that.y, this.y) == 0 && Double.compare(that.z, this.z) == 0 && Objects.equals(this.world, that.world) && this.breakable.equals(that.breakable);
         }
-            return false;
+        return false;
 
     }
 

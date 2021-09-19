@@ -64,7 +64,7 @@ public class MarginSession extends BuildSession {
         this.root = this.root.newOffset(this.schematic.getRootOffset());
         this.rotate = this.root.rotationX == 90;
 
-        if(Main.instance.databaseManager.getBuild(root, 0)!=null){
+        if (Main.instance.databaseManager.getBuild(root, 0) != null) {
             this.root = null;
             return;
         }
