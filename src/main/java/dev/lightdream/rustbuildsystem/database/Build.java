@@ -48,7 +48,7 @@ public class Build {
         this.rootLocation = rootLocation;
         this.blockLocations = new HashSet<>(blockLocations);
         this.level = 0;
-        this.health = Main.instance.config.builds.get(type).getHeath().get(level);
+        this.health = Main.instance.config.builds.get(name).getHeath().get(level);
         List<Integer> collidingIDs = new ArrayList<>();
         colliding.forEach(build -> collidingIDs.add(build.id));
         this.colliding = new HashSet<>(collidingIDs);

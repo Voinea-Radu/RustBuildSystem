@@ -63,6 +63,9 @@ public class EventManager implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
         User user = plugin.databaseManager.getUser(event.getPlayer());
 
         if (user.getPlayer() == null) {
@@ -78,8 +81,12 @@ public class EventManager implements Listener {
         playerMap.remove(user);
     }
 
+    @SuppressWarnings("deprecation")
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
         User user = plugin.databaseManager.getUser(event.getPlayer());
         Build build = plugin.databaseManager.getBuild(new PluginLocation(event.getBlock().getLocation()), true);
 
