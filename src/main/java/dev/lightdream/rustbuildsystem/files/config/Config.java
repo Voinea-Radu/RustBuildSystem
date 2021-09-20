@@ -175,5 +175,6 @@ public class Config extends dev.lightdream.api.files.config.Config {
     public int maxY = 255;
     public int stepsForUpdate = 0;
     public int minBuildOnGroundDistance = 2;
+    public int range = 8;
 
 }

@@ -23,7 +23,7 @@ public class MarginSession extends BuildSession {
 
     @Override
     public void preview() {
-        Block target = Utils.getTargetBlock(user.getPlayer(), 8, false, false);
+        Block target = Utils.getTargetBlock(user.getPlayer(), Main.instance.config.range, false, false);
         this.targetBuild = null;
 
         if (target == null) {

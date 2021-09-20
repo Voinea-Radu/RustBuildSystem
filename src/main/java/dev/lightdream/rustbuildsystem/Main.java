@@ -35,7 +35,7 @@ public final class Main extends LightDreamPlugin {
 
     @Override
     public void onEnable() {
-        init("RustBuildSystem", "rbs", "2.1");
+        init("RustBuildSystem", "rbs", "2.2");
         instance = this;
         eventManager = new EventManager(this);
         databaseManager = new DatabaseManager(this);

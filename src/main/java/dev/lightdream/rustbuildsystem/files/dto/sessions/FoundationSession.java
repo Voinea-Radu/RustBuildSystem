@@ -27,7 +27,7 @@ public class FoundationSession extends BuildSession {
 
     @Override
     public void preview() {
-        Block target = Utils.getTargetBlock(user.getPlayer(), 8, false, true);
+        Block target = Utils.getTargetBlock(user.getPlayer(), Main.instance.config.range, false, true);
         this.targetBuild = null;
 
         if (target == null) {
