@@ -8,6 +8,7 @@ import dev.lightdream.api.managers.KeyDeserializerManager;
 import dev.lightdream.api.managers.MessageManager;
 import dev.lightdream.libs.fasterxml.databind.module.SimpleModule;
 import dev.lightdream.rustbuildsystem.commands.BuildCommand;
+import dev.lightdream.rustbuildsystem.commands.GiveCommand;
 import dev.lightdream.rustbuildsystem.commands.UpgradeCommand;
 import dev.lightdream.rustbuildsystem.files.config.Config;
 import dev.lightdream.rustbuildsystem.files.config.Lang;
@@ -71,6 +72,7 @@ public final class Main extends LightDreamPlugin {
     public void loadBaseCommands() {
         baseCommands.add(new BuildCommand(this));
         baseCommands.add(new UpgradeCommand(this));
+        baseCommands.add(new GiveCommand(this));
     }
 
     @Override

@@ -225,6 +225,10 @@ public class Build {
         return getRebuilds(new HashSet<>());
     }
 
+    public int getMaxHealth(){
+        return Main.instance.config.builds.get(this.name).getHeath().get(this.level);
+    }
+
     public HashSet<Build> getRebuilds(HashSet<Build> rebuilt) {
         rebuilt.add(this);
         List<Build> builds = new ArrayList<>();

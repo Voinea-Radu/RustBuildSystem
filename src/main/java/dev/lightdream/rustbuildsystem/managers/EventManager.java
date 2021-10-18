@@ -2,16 +2,26 @@ package dev.lightdream.rustbuildsystem.managers;
 
 import dev.lightdream.api.databases.User;
 import dev.lightdream.api.files.dto.PluginLocation;
+import dev.lightdream.api.files.dto.XMaterial;
 import dev.lightdream.rustbuildsystem.Main;
+import dev.lightdream.rustbuildsystem.Utils;
 import dev.lightdream.rustbuildsystem.database.Build;
 import dev.lightdream.rustbuildsystem.files.dto.BuildSession;
+import dev.lightdream.rustbuildsystem.helpers.ItemBuilder;
+import dev.lightdream.rustbuildsystem.inventory.BuildInventory;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +43,6 @@ public class EventManager implements Listener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         User user = plugin.databaseManager.getUser(event.getPlayer());
-
         if (user.getPlayer() == null) {
             return;
         }
@@ -56,6 +65,7 @@ public class EventManager implements Listener {
             }
         }
 
+        //Preview the build session
         BuildSession buildSession = buildMode.get(user);
         buildSession.preview();
     }
@@ -115,12 +125,32 @@ public class EventManager implements Listener {
             return;
         }
 
-        event.getBlock().getWorld().playSound(event.getBlock().getLocation(), Sound.ZOMBIE_WOOD, 1, 500);
+        Bukkit.getOnlinePlayers().forEach(players -> {
+            if (players.getLocation().distance(event.getBlock().getLocation()) < 10){
+                event.getBlock().getWorld().playSound(event.getBlock().getLocation(), Sound.ZOMBIE_WOOD, 1, 500);
+            }
+        });
         build.damage();
-        event.getPlayer().sendTitle("", ChatColor.translateAlternateColorCodes('&', "&7Pozostae HP: &d" + build.health));
-        Main.instance.getMessageManager().sendMessage(user, Main.instance.lang.healthMessage.replace("%health%", String.valueOf(build.health)));
-
+        int percent = build.health * build.getMaxHealth() / 100;
+        double b = Math.round(percent * 10.0) / 10.0 ;
+        String color = "&a&l";
+        if (b>=51.0) color = "&a&l";
+        else if (b>=31.0)color = "&e&l";
+        else if (b<=30.0) color = "&c&l";
+        Utils.sendBar(event.getPlayer(), "&dIlosc HP: &7&l["+color+b+"%&7&l] &4\u2764");
         event.setCancelled(true);
     }
 
+    @EventHandler
+    public void interactBuilding(PlayerInteractEvent event) {
+        if (event.getItem() == null) return;
+        Player player = event.getPlayer();
+        ItemStack is = player.getItemInHand();
+        ItemBuilder plan = new ItemBuilder(Material.BOOK_AND_QUILL).setName("&5&lPLAN BUDOWY").setLore("&7xyz", "", "", "&7Kliknij PPM, aby otworzyc menu &dBUDOWANIA");
+        if (is.isSimilar(plan.toItemStack())) {
+            if (!(event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK))) return;
+            event.setCancelled(true);
+            BuildInventory.openMain().openInventory(player);
+        }
+    }
 }
